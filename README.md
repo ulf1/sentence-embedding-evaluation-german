@@ -13,7 +13,24 @@ Table of Contents
 * [Use Case 1](#use-case-1)
 
 
-### Use Case 1
+## Downstream tasks
+
+| task | type | \#train | \#test | target | info |
+|:---:|:---:|:---:|:---:|:---:|:---:|
+| TOXIC | 👿 toxic comments | | | binary {0,1} | GermEval 2021 subtask 1, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| ENGAGE | 🤗 engaging comments | | | binary {0,1} | GermEval 2021 subtask 2, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| FCLAIM | ☝️ fact-claiming comments | | | binary {0,1} | GermEval 2021 subtask 3, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| OL19 | offensive language | | | binary; 4 catg.; 2 catg. | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
+| OL18 | offensive language | | | binary; 4 catg. | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
+| ABSD | sentiment analysis | 22000 | | | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+
+
+## Download datasets
+
+```sh
+bash download-datasets.sh
+```
+
 
 
 ## Appendix

@@ -29,7 +29,9 @@ setuptools.setup(
     license='Apache License 2.0',
     packages=['sentence_embedding_evaluation_german'],
     install_requires=[],
-    # scripts=['scripts/examplescript.py'],
+    # scripts=[
+    #     'scripts/download.py'
+    # ],
     python_requires='>=3.6',
     zip_safe=True
 )
