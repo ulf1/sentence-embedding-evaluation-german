@@ -21,17 +21,18 @@ def get_version(path):
 setuptools.setup(
     name='sentence-embedding-evaluation-german',
     version=get_version("sentence_embedding_evaluation_german/__init__.py"),
-    description='lorem ipsum',
+    description='Sentence embedding evaluation for German',
     long_description=read('README.rst'),
     url='http://github.com/linguistik/sentence-embedding-evaluation-german',
     author='Ulf Hamster',
     author_email='554c46@gmail.com',
     license='Apache License 2.0',
     packages=['sentence_embedding_evaluation_german'],
-    install_requires=[],
-    # scripts=[
-    #     'scripts/download.py'
-    # ],
+    install_requires=[
+        "torch>=1.1.0,<2",
+        "pandas>=1.3.5,<2",
+        "scikit-learn>=1.0.2,<2"
+    ],
     python_requires='>=3.6',
     zip_safe=True
 )

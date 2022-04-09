@@ -16,6 +16,6 @@ wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/05/germeval
 
 mkdir -p datasets/germeval17
 wget -q "http://ltdata1.informatik.uni-hamburg.de/germeval2017/train-2017-09-15.tsv" -O datasets/germeval17/train.tsv
-wget -q "http://ltdata1.informatik.uni-hamburg.de/germeval2017/test_syn-2017-09-15.tsv" -O datasets/germeval17/test-syn.tsv
-wget -q "http://ltdata1.informatik.uni-hamburg.de/germeval2017/test_dia-2017-09-15.tsv" -O datasets/germeval17/test-dia.tsv
+wget -q "http://ltdata1.informatik.uni-hamburg.de/germeval2017/test_syn-2017-09-15.tsv" -O datasets/germeval17/test.tsv
+# wget -q "http://ltdata1.informatik.uni-hamburg.de/germeval2017/test_dia-2017-09-15.tsv" -O datasets/germeval17/test-dia.tsv
 
