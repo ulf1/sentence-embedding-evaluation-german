@@ -288,3 +288,66 @@ class GermEval21(torch.utils.data.Dataset):
 
     def __getitem__(self, rowidx):
         return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
+
+
+class GermEval21vmwe(torch.utils.data.Dataset):
+    """ VMWE
+    Examples:
+    ---------
+    dset = GermEval21vmwe(
+        preprocesser, test=False,
+        early_stopping=True, split_ratio=0.1)
+    X_valid, y_valid = dset.get_validation_set()
+    n_classes = dset.num_classes()
+    dgen = torch.utils.data.DataLoader(
+        dset, **{'batch_size': 64, 'shuffle': True, 'num_workers': 6})
+    for X, y in dgen: break
+    """
+    def __init__(self,
+                 preprocesser,
+                 datafolder: str = "datasets",
+                 test: bool = False,
+                 early_stopping: bool = False,
+                 split_ratio: float = 0.2,
+                 random_seed: int = 42):
+        # self.labels = ['figuratively', 'literally', 'both', 'undecidable']
+        self.labels = ['figuratively', 'literally']
+
+        # read data
+        split = "test" if test else "train"
+        data = pd.read_csv(
+            f"{datafolder}/germeval21vmwe/{split}.tsv", sep="\t").values
+        # bad examples to be removed
+        idxbad = [i for i, x in enumerate(data[:, 2])
+                  if x not in self.labels]
+        data = np.delete(data, idxbad, axis=0)
+
+        # preprocess
+        self.X = preprocesser(data[:, 3].tolist())
+        self.y = torch.tensor([self.labels.index(row[2]) for row in data])
+
+        # prepare data split
+        if early_stopping and split == "train":
+            self.indices, self.idx_valid = get_data_split(
+                self.X.shape[0], random_seed=random_seed)
+        else:
+            self.indices = torch.tensor(range(self.X.shape[0]))
+            self.idx_valid = None
+
+    def get_validation_set(self):
+        if self.idx_valid is not None:
+            return self.X[self.idx_valid], self.y[self.idx_valid]
+        else:
+            return None, None
+
+    def num_classes(self):
+        return 2
+
+    def num_features(self):
+        return self.X.shape[1]
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, rowidx):
+        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]

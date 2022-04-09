@@ -2,7 +2,8 @@ import torch
 import types
 from typing import List
 import sklearn.metrics
-from .data import (GermEval17, GermEval18, GermEval19, GermEval21)
+from .data import (
+    GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe)
 
 
 class ClassiferModel(torch.nn.Module):
@@ -139,6 +140,15 @@ def evaluate(downstream_tasks: List[str],
             ds_test = GermEval21(
                 preprocesser, datafolder=datafolder,
                 task="FCLAIM", test=True)
+
+        elif downstream_task == "VMWE":
+            ds_train = GermEval21vmwe(
+                preprocesser, datafolder=datafolder,
+                test=False, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            ds_test = GermEval21vmwe(
+                preprocesser, datafolder=datafolder,
+                test=True)
         else:
             raise Exception(
                 f"Downstream task '{downstream_task}' not available.")

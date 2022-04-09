@@ -4,6 +4,10 @@ mkdir -p datasets/germeval21
 wget -q "https://raw.githubusercontent.com/germeval2021toxic/SharedTask/main/Data%20Sets/GermEval21_TrainData.csv" -O datasets/germeval21/train.csv
 wget -q "https://raw.githubusercontent.com/germeval2021toxic/SharedTask/main/Data%20Sets/GermEval21_TestData.csv" -O datasets/germeval21/test.csv
 
+mkdir -p datasets/germeval21vmwe
+wget -q "https://raw.githubusercontent.com/rafehr/vid-disambiguation-sharedtask/main/data/train/train.tsv" -O datasets/germeval21vmwe/train.tsv
+wget -q "https://raw.githubusercontent.com/rafehr/vid-disambiguation-sharedtask/main/data/test/test.tsv" -O datasets/germeval21vmwe/test.tsv
+
 mkdir -p datasets/germeval19
 wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/09/germeval2019.training_subtask1_2_korrigiert.txt" -O datasets/germeval19/train12.txt
 wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/05/germeval2019.training_subtask3.txt" -O datasets/germeval19/train3.txt

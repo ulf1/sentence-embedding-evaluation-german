@@ -12,17 +12,18 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 
 | task | type | properties | \#train | \#test | target | info |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| TOXIC | 👿 toxic comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021 subtask 1, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| ENGAGE | 🤗 engaging comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021 subtask 2, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| FCLAIM | ☝️ fact-claiming comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021 subtask 3, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| OL19A | offensive language | tweets | 3184 | 3030 | binary {0,1} | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
-| OL19B | offensive language, fine-grained | tweets | 3184 | 3030 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
-| OL19C | explicit vs. implicit offense | tweets | 1920 | 929 | 2 catg. (explicit, implicit) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
-| OL18A | offensive language | tweets | 4007 | 3397 | binary {0,1} | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
-| OL18B | offensive language, fine-grained | tweets | 4007 | 3397 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
-| ABSD1 | relevance classification | Deutsche Bahn customer feedback | 19431 | 2565 | binary | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
-| ABSD2 | sentiment analysis | Deutsche Bahn customer feedback | 19431 | 2565 | 3 catg. (pos., neg., neutral) | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
-| ABSD3 | aspect categories | Deutsche Bahn customer feedback | 19431 | 2565 | 20 catg. | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| TOXIC | 👿 toxic comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 1, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| ENGAGE | 🤗 engaging comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 2, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| FCLAIM | ☝️ fact-claiming comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 3, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| VMWE | verbal idioms | newspaper | 6651 | 1446 | binary (figuratively, literally) | GermEval 2021, verbal idioms, [📁](https://github.com/rafehr/vid-disambiguation-sharedtask) [📖](https://aclanthology.org/2020.figlang-1.29.pdf) |
+| OL19A | 👿 offensive language | tweets | 3184 | 3030 | binary {0,1} | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
+| OL19B | 👿 offensive language, fine-grained | tweets | 3184 | 3030 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
+| OL19C | 👿 explicit vs. implicit offense | tweets | 1920 | 929 | binary (explicit, implicit) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
+| OL18A | 👿 offensive language | tweets | 4007 | 3397 | binary {0,1} | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
+| OL18B | 👿 offensive language, fine-grained | tweets | 4007 | 3397 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
+| ABSD1 | 🛤️ relevance classification | Deutsche Bahn customer feedback | 19431 | 2565 | binary | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| ABSD2 | 🛤️ sentiment analysis | Deutsche Bahn customer feedback | 19431 | 2565 | 3 catg. (pos., neg., neutral) | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| ABSD3 | 🛤️ aspect categories | Deutsche Bahn customer feedback | 19431 | 2565 | 20 catg. | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
 
 
 ## Download datasets
@@ -82,7 +83,7 @@ params = {
 
 # (4) Specify downstream tasks
 downstream_tasks = [
-    'TOXIC', 'ENGAGE', 'FCLAIM', 
+    'TOXIC', 'ENGAGE', 'FCLAIM', 'VMWE',
     'OL19A', 'OL19B', 'OL19C',
     'ABSD1', 'ABSD2', 'ABSD3']
 
