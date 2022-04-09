@@ -15,7 +15,7 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 | TOXIC | 👿 toxic comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 1, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
 | ENGAGE | 🤗 engaging comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 2, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
 | FCLAIM | ☝️ fact-claiming comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 3, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| VMWE | verbal idioms | | | | binary (figuratively, literally) | GermEval 2021, verbal idioms, [📁](https://github.com/rafehr/vid-disambiguation-sharedtask) |
+| VMWE | verbal idioms | newspaper | 6651 | 1446 | binary (figuratively, literally) | GermEval 2021, verbal idioms, [📁](https://github.com/rafehr/vid-disambiguation-sharedtask) [📖](https://aclanthology.org/2020.figlang-1.29.pdf) |
 | OL19A | 👿 offensive language | tweets | 3184 | 3030 | binary {0,1} | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
 | OL19B | 👿 offensive language, fine-grained | tweets | 3184 | 3030 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
 | OL19C | 👿 explicit vs. implicit offense | tweets | 1920 | 929 | binary (explicit, implicit) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
