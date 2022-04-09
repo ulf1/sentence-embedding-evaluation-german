@@ -321,7 +321,7 @@ class GermEval21vmwe(torch.utils.data.Dataset):
         idxbad = [i for i, x in enumerate(data[:, 2])
                   if x not in self.labels]
         data = np.delete(data, idxbad, axis=0)
-        
+
         # preprocess
         self.X = preprocesser(data[:, 3].tolist())
         self.y = torch.tensor([self.labels.index(row[2]) for row in data])
