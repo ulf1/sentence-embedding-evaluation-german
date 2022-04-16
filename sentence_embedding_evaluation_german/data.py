@@ -3,7 +3,6 @@ import numpy as np
 import torch
 import sqlite3
 import sklearn.model_selection
-from collections import Counter
 
 
 def get_data_split(n: int,

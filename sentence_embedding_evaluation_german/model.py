@@ -5,6 +5,7 @@ import sklearn.metrics
 from .data import (
     GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe,
     MillionSentiment, MillionBinary)
+from collections import Counter
 
 
 class ClassiferModel(torch.nn.Module):
@@ -249,6 +250,8 @@ def evaluate(downstream_tasks: List[str],
             "f1": sklearn.metrics.f1_score(y_test, y_pred, average='micro'),
             "f1-balanced": sklearn.metrics.f1_score(
                 y_test, y_pred, average='macro'),
+            "distr-pred": dict(Counter(y_pred.detach().numpy())),
+            "distr-test": dict(Counter(y_test.detach().numpy())),
         }
         y_pred = torch.argmax(model(X_train), dim=1)
         res_train = {
@@ -259,6 +262,8 @@ def evaluate(downstream_tasks: List[str],
             "f1": sklearn.metrics.f1_score(y_train, y_pred, average='micro'),
             "f1-balanced": sklearn.metrics.f1_score(
                 y_train, y_pred, average='macro'),
+            "distr-pred": dict(Counter(y_pred.detach().numpy())),
+            "distr-train": dict(Counter(y_train.detach().numpy())),
         }
         # save results
         results.append({
