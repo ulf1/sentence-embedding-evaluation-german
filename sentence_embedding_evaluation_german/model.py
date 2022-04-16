@@ -161,8 +161,8 @@ def evaluate(downstream_tasks: List[str],
                 preprocesser, datafolder=datafolder,
                 test=True)
 
-        elif downstream_task in [
-            'MIO-O', 'MIO-I', 'MIO-D', 'MIO-F', 'MIO-P', 'MIO-A']:
+        elif downstream_task in ['MIO-O', 'MIO-I', 'MIO-D', 'MIO-F', 'MIO-P',
+                                 'MIO-A']:
             ds_train = MillionBinary(
                 preprocesser, datafolder=datafolder,
                 test=False, task=downstream_task, split_ratio=split_ratio,

@@ -390,7 +390,7 @@ class MillionSentiment(torch.utils.data.Dataset):
         con = sqlite3.connect(f"{datafolder}/1mio/corpus.sqlite3")
         cur = con.cursor()
         res = cur.execute("""
-        SELECT 
+        SELECT
             Posts.Headline,
             Posts.Body,
             SUM(IIF(Category='SentimentNegative', Value, 0)),
@@ -404,7 +404,7 @@ class MillionSentiment(torch.utils.data.Dataset):
         GROUP BY Annotations.ID_Post
         """)
         dat = [(merge_mio(row[0], row[1]), np.argmax(row[2:])) for row in res]
-        dat = [(x, y) for x, y in dat if len(x)>0]
+        dat = [(x, y) for x, y in dat if len(x) > 0]
         X = [row[0] for row in dat]
         y = [int(row[1]) for row in dat]
 
@@ -421,7 +421,7 @@ class MillionSentiment(torch.utils.data.Dataset):
         self.y = torch.tensor(y)
 
         # prepare data split
-        if early_stopping and split == "train":
+        if early_stopping and (not test):
             self.indices, self.idx_valid = get_data_split(
                 self.X.shape[0], random_seed=random_seed)
         else:
@@ -492,7 +492,7 @@ class MillionBinary(torch.utils.data.Dataset):
         con = sqlite3.connect(f"{datafolder}/1mio/corpus.sqlite3")
         cur = con.cursor()
         res = cur.execute(f"""
-        SELECT 
+        SELECT
             Posts.Headline,
             Posts.Body,
             AVG(Annotations.Value) >= 0.5
@@ -502,7 +502,7 @@ class MillionBinary(torch.utils.data.Dataset):
         GROUP BY Annotations.ID_Post
         """)
         dat = [(merge_mio(row[0], row[1]), row[2]) for row in res]
-        dat = [(x, y) for x, y in dat if len(x)>0]
+        dat = [(x, y) for x, y in dat if len(x) > 0]
         X = [row[0] for row in dat]
         y = [int(row[1]) for row in dat]
 
@@ -519,7 +519,7 @@ class MillionBinary(torch.utils.data.Dataset):
         self.y = torch.tensor(y)
 
         # prepare data split
-        if early_stopping and split == "train":
+        if early_stopping and (not test):
             self.indices, self.idx_valid = get_data_split(
                 self.X.shape[0], random_seed=random_seed)
         else:
@@ -537,7 +537,7 @@ class MillionBinary(torch.utils.data.Dataset):
 
     def num_features(self):
         return self.X.shape[1]
-    
+
     def __len__(self):
         return len(self.indices)
 
