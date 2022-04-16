@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import torch
+import sqlite3
+import sklearn.model_selection
 
 
 def get_data_split(n: int,
@@ -328,6 +330,196 @@ class GermEval21vmwe(torch.utils.data.Dataset):
 
         # prepare data split
         if early_stopping and split == "train":
+            self.indices, self.idx_valid = get_data_split(
+                self.X.shape[0], random_seed=random_seed)
+        else:
+            self.indices = torch.tensor(range(self.X.shape[0]))
+            self.idx_valid = None
+
+    def get_validation_set(self):
+        if self.idx_valid is not None:
+            return self.X[self.idx_valid], self.y[self.idx_valid]
+        else:
+            return None, None
+
+    def num_classes(self):
+        return 2
+
+    def num_features(self):
+        return self.X.shape[1]
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, rowidx):
+        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
+
+
+def merge_mio(a, b):
+    s = ""
+    if isinstance(a, str):
+        s += a
+        s += ". "
+    if isinstance(b, str):
+        s += b
+    return s
+
+
+class MillionSentiment(torch.utils.data.Dataset):
+    """ Million Dataset
+    Examples:
+    ---------
+    dset = MillionSentiment(
+        preprocesser, test=False,
+        early_stopping=True, split_ratio=0.1)
+    X_valid, y_valid = dset.get_validation_set()
+    n_classes = dset.num_classes()
+    dgen = torch.utils.data.DataLoader(
+        dset, **{'batch_size': 64, 'shuffle': True, 'num_workers': 6})
+    for X, y in dgen: break
+    """
+    def __init__(self,
+                 preprocesser,
+                 datafolder: str = "datasets",
+                 test: bool = False,
+                 early_stopping: bool = False,
+                 split_ratio: float = 0.2,
+                 random_seed: int = 42):
+        # self.labels = ['negative', 'neural', 'positive']
+        # read data
+        con = sqlite3.connect(f"{datafolder}/1mio/corpus.sqlite3")
+        cur = con.cursor()
+        res = cur.execute("""
+        SELECT
+            Posts.Headline,
+            Posts.Body,
+            SUM(IIF(Category='SentimentNegative', Value, 0)),
+            SUM(IIF(Category='SentimentNeutral', Value, 0)),
+            SUM(IIF(Category='SentimentPositive', Value, 0))
+        FROM Annotations
+        INNER JOIN Posts ON Posts.ID_Post=Annotations.ID_Post
+        WHERE Category='SentimentNegative'
+        OR Category='SentimentNeutral'
+        OR Category='SentimentPositive'
+        GROUP BY Annotations.ID_Post
+        """)
+        dat = [(merge_mio(row[0], row[1]), np.argmax(row[2:])) for row in res]
+        dat = [(x, y) for x, y in dat if len(x) > 0]
+        X = [row[0] for row in dat]
+        y = [int(row[1]) for row in dat]
+
+        # data split
+        if test:
+            _, X, _, y = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+        else:
+            X, _, y, _ = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+
+        # preprocess
+        self.X = preprocesser(X)
+        self.y = torch.tensor(y)
+
+        # prepare data split
+        if early_stopping and (not test):
+            self.indices, self.idx_valid = get_data_split(
+                self.X.shape[0], random_seed=random_seed)
+        else:
+            self.indices = torch.tensor(range(self.X.shape[0]))
+            self.idx_valid = None
+
+    def get_validation_set(self):
+        if self.idx_valid is not None:
+            return self.X[self.idx_valid], self.y[self.idx_valid]
+        else:
+            return None, None
+
+    def num_classes(self):
+        return 3
+
+    def num_features(self):
+        return self.X.shape[1]
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, rowidx):
+        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
+
+
+class MillionBinary(torch.utils.data.Dataset):
+    """ Million Dataset
+    Tasks:
+    ------
+    MIO-O: 'OffTopic'
+    MIO-I: 'Inappropriate'
+    MIO-D: 'Discriminating'
+    MIO-F: 'PossiblyFeedback'
+    MIO-P: 'PersonalStories'
+    MIO-A: 'ArgumentsUsed'
+
+    Examples:
+    ---------
+    dset = MillionBinary(
+        preprocesser, test=False, task='OffTopic',
+        early_stopping=True, split_ratio=0.1)
+    X_valid, y_valid = dset.get_validation_set()
+    n_classes = dset.num_classes()
+    dgen = torch.utils.data.DataLoader(
+        dset, **{'batch_size': 64, 'shuffle': True, 'num_workers': 6})
+    for X, y in dgen: break
+    """
+    def __init__(self,
+                 preprocesser,
+                 datafolder: str = "datasets",
+                 task: str = "OffTopic",
+                 test: bool = False,
+                 early_stopping: bool = False,
+                 split_ratio: float = 0.2,
+                 random_seed: int = 42):
+        # self.labels = ['negative', 'neural', 'positive']
+        # task
+        t1 = ['MIO-O', 'MIO-I', 'MIO-D', 'MIO-F', 'MIO-P', 'MIO-A']
+        t2 = ['OffTopic', 'Inappropriate', 'Discriminating',
+              'PossiblyFeedback', 'PersonalStories', 'ArgumentsUsed']
+        if task in t1:
+            idx = t1.index(task)
+            task = t2[idx]
+        if task not in t2:
+            raise Exception(f"task='{task}' does not exist")
+
+        # read data
+        con = sqlite3.connect(f"{datafolder}/1mio/corpus.sqlite3")
+        cur = con.cursor()
+        res = cur.execute(f"""
+        SELECT
+            Posts.Headline,
+            Posts.Body,
+            AVG(Annotations.Value) >= 0.5
+        FROM Annotations
+        INNER JOIN Posts ON Posts.ID_Post=Annotations.ID_Post
+        WHERE Annotations.Category='{task}'
+        GROUP BY Annotations.ID_Post
+        """)
+        dat = [(merge_mio(row[0], row[1]), row[2]) for row in res]
+        dat = [(x, y) for x, y in dat if len(x) > 0]
+        X = [row[0] for row in dat]
+        y = [int(row[1]) for row in dat]
+
+        # data split
+        if test:
+            _, X, _, y = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+        else:
+            X, _, y, _ = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+
+        # preprocess
+        self.X = preprocesser(X)
+        self.y = torch.tensor(y)
+
+        # prepare data split
+        if early_stopping and (not test):
             self.indices, self.idx_valid = get_data_split(
                 self.X.shape[0], random_seed=random_seed)
         else:

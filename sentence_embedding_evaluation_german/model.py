@@ -3,7 +3,9 @@ import types
 from typing import List
 import sklearn.metrics
 from .data import (
-    GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe)
+    GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe,
+    MillionSentiment, MillionBinary)
+from collections import Counter
 
 
 class ClassiferModel(torch.nn.Module):
@@ -49,7 +51,7 @@ def evaluate(downstream_tasks: List[str],
     results = []
     for downstream_task in downstream_tasks:
         # load datasets
-        if downstream_task == "ABSD1":
+        if downstream_task == "ABSD-1":
             ds_train = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Relevance", test=False, split_ratio=split_ratio,
@@ -57,7 +59,7 @@ def evaluate(downstream_tasks: List[str],
             ds_test = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Relevance", test=True)
-        elif downstream_task == "ABSD2":
+        elif downstream_task == "ABSD-2":
             ds_train = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Sentiment", test=False, split_ratio=split_ratio,
@@ -65,7 +67,7 @@ def evaluate(downstream_tasks: List[str],
             ds_test = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Sentiment", test=True)
-        elif downstream_task == "ABSD3":
+        elif downstream_task == "ABSD-3":
             ds_train = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Category", test=False, split_ratio=split_ratio,
@@ -74,7 +76,7 @@ def evaluate(downstream_tasks: List[str],
                 preprocesser, datafolder=datafolder,
                 task="Category", test=True)
 
-        elif downstream_task == "OL18A":
+        elif downstream_task == "OL18-A":
             ds_train = GermEval18(
                 preprocesser, datafolder=datafolder,
                 task="A", test=False, split_ratio=split_ratio,
@@ -82,7 +84,7 @@ def evaluate(downstream_tasks: List[str],
             ds_test = GermEval18(
                 preprocesser, datafolder=datafolder,
                 task="A", test=True)
-        elif downstream_task == "OL18B":
+        elif downstream_task == "OL18-B":
             ds_train = GermEval18(
                 preprocesser, datafolder=datafolder,
                 task="B", test=False, split_ratio=split_ratio,
@@ -91,7 +93,7 @@ def evaluate(downstream_tasks: List[str],
                 preprocesser, datafolder=datafolder,
                 task="B", test=True)
 
-        elif downstream_task == "OL19A":
+        elif downstream_task == "OL19-A":
             ds_train = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="A", test=False, split_ratio=split_ratio,
@@ -99,7 +101,7 @@ def evaluate(downstream_tasks: List[str],
             ds_test = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="A", test=True)
-        elif downstream_task == "OL19B":
+        elif downstream_task == "OL19-B":
             ds_train = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="B", test=False, split_ratio=split_ratio,
@@ -107,7 +109,7 @@ def evaluate(downstream_tasks: List[str],
             ds_test = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="B", test=True)
-        elif downstream_task == "OL19C":
+        elif downstream_task == "OL19-C":
             ds_train = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="C", test=False, split_ratio=split_ratio,
@@ -149,6 +151,26 @@ def evaluate(downstream_tasks: List[str],
             ds_test = GermEval21vmwe(
                 preprocesser, datafolder=datafolder,
                 test=True)
+
+        elif downstream_task == "MIO-S":
+            ds_train = MillionSentiment(
+                preprocesser, datafolder=datafolder,
+                test=False, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            ds_test = MillionSentiment(
+                preprocesser, datafolder=datafolder,
+                test=True)
+
+        elif downstream_task in ['MIO-O', 'MIO-I', 'MIO-D', 'MIO-F', 'MIO-P',
+                                 'MIO-A']:
+            ds_train = MillionBinary(
+                preprocesser, datafolder=datafolder,
+                test=False, task=downstream_task, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            ds_test = MillionBinary(
+                preprocesser, datafolder=datafolder,
+                test=True, task=downstream_task)
+
         else:
             raise Exception(
                 f"Downstream task '{downstream_task}' not available.")
@@ -228,6 +250,8 @@ def evaluate(downstream_tasks: List[str],
             "f1": sklearn.metrics.f1_score(y_test, y_pred, average='micro'),
             "f1-balanced": sklearn.metrics.f1_score(
                 y_test, y_pred, average='macro'),
+            "distr-pred": dict(Counter(y_pred.detach().numpy())),
+            "distr-test": dict(Counter(y_test.detach().numpy())),
         }
         y_pred = torch.argmax(model(X_train), dim=1)
         res_train = {
@@ -238,6 +262,8 @@ def evaluate(downstream_tasks: List[str],
             "f1": sklearn.metrics.f1_score(y_train, y_pred, average='micro'),
             "f1-balanced": sklearn.metrics.f1_score(
                 y_train, y_pred, average='macro'),
+            "distr-pred": dict(Counter(y_pred.detach().numpy())),
+            "distr-train": dict(Counter(y_train.detach().numpy())),
         }
         # save results
         results.append({
