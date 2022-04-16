@@ -393,8 +393,8 @@ class MillionSentiment(torch.utils.data.Dataset):
         SELECT
             Posts.Headline,
             Posts.Body,
-            SUM(IIF(Category='SentimentNegative', Value, 0)),
             SUM(IIF(Category='SentimentNeutral', Value, 0)),
+            SUM(IIF(Category='SentimentNegative', Value, 0)),
             SUM(IIF(Category='SentimentPositive', Value, 0))
         FROM Annotations
         INNER JOIN Posts ON Posts.ID_Post=Annotations.ID_Post
