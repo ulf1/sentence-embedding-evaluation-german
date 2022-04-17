@@ -12,18 +12,18 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 
 | task | type | properties | \#train | \#test | target | info |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| TOXIC | 👿 toxic comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 1, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| ENGAGE | 🤗 engaging comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 2, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| FCLAIM | ☝️ fact-claiming comments | facebook comments | 2596 | 944 | binary {0,1} | GermEval 2021, comments subtask 3, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| VMWE | verbal idioms | newspaper | 6651 | 1446 | binary (figuratively, literally) | GermEval 2021, verbal idioms, [📁](https://github.com/rafehr/vid-disambiguation-sharedtask) [📖](https://aclanthology.org/2020.figlang-1.29.pdf) |
-| OL19-A | 👿 offensive language | tweets | 3184 | 3030 | binary {0,1} | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
-| OL19-B | 👿 offensive language, fine-grained | tweets | 3184 | 3030 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
-| OL19-C | 👿 explicit vs. implicit offense | tweets | 1920 | 929 | binary (explicit, implicit) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) |
-| OL18-A | 👿 offensive language | tweets | 4007 | 3397 | binary {0,1} | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
-| OL18-B | 👿 offensive language, fine-grained | tweets | 4007 | 3397 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
-| ABSD-1 | 🛤️ relevance classification | 'Deutsche Bahn' customer feedback, `lang:de-DE` | 19431 | 2565 | binary | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
-| ABSD-2 | 🛤️ Sentiment analysis | 'Deutsche Bahn' customer feedback, `lang:de-DE` | 19431 | 2565 | 3 catg. (pos., neg., neutral) | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
-| ABSD-3 | 🛤️ aspect categories | 'Deutsche Bahn' customer feedback, `lang:de-DE` | 19431 | 2565 | 20 catg. | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| TOXIC | 👿 toxic comments | facebook comments | 3244 | 944 | binary {0,1} | GermEval 2021, comments subtask 1, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| ENGAGE | 🤗 engaging comments | facebook comments | 3244 | 944 | binary {0,1} | GermEval 2021, comments subtask 2, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| FCLAIM | ☝️ fact-claiming comments | facebook comments | 3244 | 944 | binary {0,1} | GermEval 2021, comments subtask 3, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
+| VMWE | verbal idioms | newspaper | 6652 | 1447 | binary (figuratively, literally) | GermEval 2021, verbal idioms, [📁](https://github.com/rafehr/vid-disambiguation-sharedtask) [📖](https://aclanthology.org/2020.figlang-1.29.pdf) |
+| OL19-A | 👿 offensive language | tweets | 3980 | 3031 | binary {0,1} | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) [📖](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/germeval/GermEvalSharedTask2019Iggsa.pdf) |
+| OL19-B | 👿 offensive language, fine-grained | tweets | 3980 | 3031 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) [📖](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/germeval/GermEvalSharedTask2019Iggsa.pdf) |
+| OL19-C | 👿 explicit vs. implicit offense | tweets | 1921 | 930 | binary (explicit, implicit) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) [📖](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/germeval/GermEvalSharedTask2019Iggsa.pdf) |
+| OL18-A | 👿 offensive language | tweets | 5009 | 3398 | binary {0,1} | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
+| OL18-B | 👿 offensive language, fine-grained | tweets | 5009 | 3398 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
+| ABSD-1 | 🛤️ relevance classification | 'Deutsche Bahn' customer feedback, `lang:de-DE` | 19432 | 2555 | binary | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| ABSD-2 | 🛤️ Sentiment analysis | 'Deutsche Bahn' customer feedback, `lang:de-DE` | 19432 | 2555 | 3 catg. (pos., neg., neutral) | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| ABSD-3 | 🛤️ aspect categories | 'Deutsche Bahn' customer feedback, `lang:de-DE` | 19432 | 2555 | 20 catg. | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
 | MIO-S | Sentiment analysis | 'Der Standard' newspaper article web comments, `lang:de-AT` | 1799 | 1800 | 3 catg. | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
 | MIO-O | off-topic comments | 'Der Standard' newspaper article web comments, `lang:de-AT` |  1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
 | MIO-I | inappropriate comments | 'Der Standard' newspaper article web comments, `lang:de-AT` |  1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
@@ -33,6 +33,9 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 | MIO-A | argumentative comments | 'Der Standard' newspaper article web comments, `lang:de-AT` | 1799 | 1800 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
 | SBCH-L | Swiss German detection | 'chatmania' app comments, `lang:gsw` | 748 | 748 | binary | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
 | SBCH-S | Sentiment analysis | 'chatmania' app comments, only comments labelled as Swiss German are included, `lang:gsw` |  394 | 394  | 3 catg. | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
+| LSDC | Lower Saxon Dialect Classification | `lang:nds` | 74140 | 8602 | 15 catg. | LSDC, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
+
+
 
 
 ## Download datasets
@@ -91,7 +94,7 @@ params = {
 }
 
 # (4) Specify downstream tasks
-downstream_tasks = ['FCLAIM', 'VMWE', 'OL19-C', 'ABSD-2', 'MIO-P', 'SBCH-L']
+downstream_tasks = ['FCLAIM', 'VMWE', 'OL19-C', 'ABSD-2', 'MIO-P', 'SBCH-L', 'LSDC']
 
 # (5) Run experiments
 results = seeg.evaluate(downstream_tasks, preprocesser, **params)
