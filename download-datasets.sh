@@ -36,3 +36,12 @@ rm datasets/1mio/million_post_corpus.tar.bz2
 mkdir -p datasets/sbch
 wget -q "https://raw.githubusercontent.com/spinningbytes/SB-CH/master/sentiment.csv" -O datasets/sbch/sentiment.csv
 wget -q "https://raw.githubusercontent.com/spinningbytes/SB-CH/master/chatmania.csv" -O datasets/sbch/chatmania.csv
+
+mkdir -p datasets/lsdc
+wget -q "https://github.com/Helsinki-NLP/LSDC/archive/refs/tags/v1.1.tar.gz" -O datasets/lsdc/v1.1.tar.gz
+cd datasets/lsdc && tar -xvf v1.1.tar.gz
+cd "$FOLDER" 
+mv datasets/lsdc/LSDC-1.1/LSDC_1.1.test datasets/lsdc/test.tsv
+mv datasets/lsdc/LSDC-1.1/LSDC_1.1.train datasets/lsdc/train.tsv
+rm -r datasets/lsdc/LSDC-1.1
+rm datasets/lsdc/v1.1.tar.gz

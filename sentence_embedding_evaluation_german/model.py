@@ -4,7 +4,7 @@ from typing import List
 import sklearn.metrics
 from .data import (
     GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe,
-    MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti)
+    MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti, LSDC)
 from collections import Counter
 
 
@@ -189,6 +189,14 @@ def evaluate(downstream_tasks: List[str],
                 preprocesser, datafolder=datafolder,
                 test=True)
 
+        elif downstream_task == "LSDC":
+            ds_train = LSDC(
+                preprocesser, datafolder=datafolder,
+                test=False, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            ds_test = LSDC(
+                preprocesser, datafolder=datafolder,
+                test=True)
         else:
             raise Exception(
                 f"Downstream task '{downstream_task}' not available.")
