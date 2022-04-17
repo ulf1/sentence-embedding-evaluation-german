@@ -45,3 +45,13 @@ mv datasets/lsdc/LSDC-1.1/LSDC_1.1.test datasets/lsdc/test.tsv
 mv datasets/lsdc/LSDC-1.1/LSDC_1.1.train datasets/lsdc/train.tsv
 rm -r datasets/lsdc/LSDC-1.1
 rm datasets/lsdc/v1.1.tar.gz
+
+mkdir -p datasets/archimob
+wget -q "https://drive.switch.ch/index.php/s/DZycFA9DPC8FgD9/download?path=%2F&files=gdi-vardial-2019.zip" -O datasets/archimob/gdi-vardial-2019.zip
+cd datasets/archimob && unzip gdi-vardial-2019.zip
+cd "$FOLDER"
+mv datasets/archimob/gdi-vardial-2019/dev.txt datasets/archimob/dev.tsv
+mv datasets/archimob/gdi-vardial-2019/train.txt datasets/archimob/train.tsv
+mv datasets/archimob/gdi-vardial-2019/gold.txt datasets/archimob/gold.tsv
+rm -r datasets/archimob/gdi-vardial-2019
+rm datasets/archimob/gdi-vardial-2019.zip

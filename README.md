@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/sentence-embedding-evaluation-german.svg)](https://badge.fury.io/py/sentence-embedding-evaluation-german)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/linguistik/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/linguistik/sentence-embedding-evaluation-german/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/linguistik/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/linguistik/sentence-embedding-evaluation-german/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/ulf1/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/sentence-embedding-evaluation-german/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ulf1/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/sentence-embedding-evaluation-german/context:python)
 
 # sentence-embedding-evaluation-german
 Sentence embedding evaluation for German.
@@ -33,7 +33,8 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 | MIO-A | argumentative comments | 'Der Standard' newspaper article web comments, `lang:de-AT` | 1799 | 1800 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
 | SBCH-L | Swiss German detection | 'chatmania' app comments, `lang:gsw` | 748 | 748 | binary | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
 | SBCH-S | Sentiment analysis | 'chatmania' app comments, only comments labelled as Swiss German are included, `lang:gsw` |  394 | 394  | 3 catg. | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
-| LSDC | Lower Saxon Dialect Classification | `lang:nds` | 74140 | 8602 | 15 catg. | LSDC, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
+| ARCHI | Swiss German Dialect Classification | `lang:gsw` | 18809 | 4743 | 4 catg. | ArchiMob, [📁](https://www.spur.uzh.ch/en/departments/research/textgroup/ArchiMob.html) [📖](https://aclanthology.org/W19-1401/) |
+| LSDC | Lower Saxon Dialect Classification | `lang:nds` | 74140 | 8602 | 14 catg. | LSDC, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
 
 
 
@@ -94,7 +95,7 @@ params = {
 }
 
 # (4) Specify downstream tasks
-downstream_tasks = ['FCLAIM', 'VMWE', 'OL19-C', 'ABSD-2', 'MIO-P', 'SBCH-L', 'LSDC']
+downstream_tasks = ['FCLAIM', 'VMWE', 'OL19-C', 'ABSD-2', 'MIO-P', 'ARCHI', 'LSDC']
 
 # (5) Run experiments
 results = seeg.evaluate(downstream_tasks, preprocesser, **params)
@@ -103,11 +104,11 @@ results = seeg.evaluate(downstream_tasks, preprocesser, **params)
 ## Appendix
 
 ### Installation
-The `sentence-embedding-evaluation-german` [git repo](http://github.com/linguistik/sentence-embedding-evaluation-german) is available as [PyPi package](https://pypi.org/project/sentence-embedding-evaluation-german)
+The `sentence-embedding-evaluation-german` [git repo](http://github.com/ulf1/sentence-embedding-evaluation-german) is available as [PyPi package](https://pypi.org/project/sentence-embedding-evaluation-german)
 
 ```sh
 pip install sentence-embedding-evaluation-german
-pip install git+ssh://git@github.com/linguistik/sentence-embedding-evaluation-german.git
+pip install git+ssh://git@github.com/ulf1/sentence-embedding-evaluation-german.git
 ```
 
 ### Install a virtual environment
@@ -147,8 +148,8 @@ rm -r .venv
 
 
 ### Support
-Please [open an issue](https://github.com/linguistik/sentence-embedding-evaluation-german/issues/new) for support.
+Please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new) for support.
 
 
 ### Contributing
-Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/linguistik/sentence-embedding-evaluation-german/compare/).
+Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/ulf1/sentence-embedding-evaluation-german/compare/).

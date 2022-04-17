@@ -4,7 +4,7 @@ from typing import List
 import sklearn.metrics
 from .data import (
     GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe,
-    MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti, LSDC)
+    MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti, ArchiMob, LSDC)
 from collections import Counter
 
 
@@ -160,7 +160,6 @@ def evaluate(downstream_tasks: List[str],
             ds_test = MillionSentiment(
                 preprocesser, datafolder=datafolder,
                 test=True)
-
         elif downstream_task in ['MIO-O', 'MIO-I', 'MIO-D', 'MIO-F', 'MIO-P',
                                  'MIO-A']:
             ds_train = MillionBinary(
@@ -179,13 +178,21 @@ def evaluate(downstream_tasks: List[str],
             ds_test = SBCHisSwiss(
                 preprocesser, datafolder=datafolder,
                 test=True)
-
         elif downstream_task == "SBCH-S":
             ds_train = SBCHsenti(
                 preprocesser, datafolder=datafolder,
                 test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
             ds_test = SBCHsenti(
+                preprocesser, datafolder=datafolder,
+                test=True)
+
+        elif downstream_task == "ARCHI":
+            ds_train = ArchiMob(
+                preprocesser, datafolder=datafolder,
+                test=False, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            ds_test = ArchiMob(
                 preprocesser, datafolder=datafolder,
                 test=True)
 
