@@ -34,7 +34,7 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 | SBCH-L | Swiss German detection | 'chatmania' app comments, `lang:gsw` | 748 | 748 | binary | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
 | SBCH-S | Sentiment analysis | 'chatmania' app comments, only comments labelled as Swiss German are included, `lang:gsw` |  394 | 394  | 3 catg. | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
 | ARCHI | Swiss German Dialect Classification | `lang:gsw` | 18809 | 4743 | 4 catg. | ArchiMob, [📁](https://www.spur.uzh.ch/en/departments/research/textgroup/ArchiMob.html) [📖](https://aclanthology.org/W19-1401/) |
-| LSDC | Lower Saxon Dialect Classification | `lang:nds` | 74140 | 8602 | 15 catg. | LSDC, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
+| LSDC | Lower Saxon Dialect Classification | `lang:nds` | 74140 | 8602 | 14 catg. | LSDC, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
 
 
 
