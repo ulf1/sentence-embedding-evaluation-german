@@ -61,7 +61,8 @@ class GermEval17(torch.utils.data.Dataset):
         # read data
         split = "test" if test else "train"
         data = pd.read_csv(
-            f"{datafolder}/germeval17/{split}.tsv", sep="\t").values
+            f"{datafolder}/germeval17/{split}.tsv",
+            sep="\t", header=None).values
         data[:, 4] = [str(s).split(":")[0] for s in data[:, 4]]
         # bad examples to be removed
         idxbad = [i for i, x in enumerate(data[:, 1])
@@ -131,7 +132,8 @@ class GermEval18(torch.utils.data.Dataset):
         # read data
         split = "test" if test else "train"
         data = pd.read_csv(
-            f"{datafolder}/germeval18/{split}.txt", sep="\t").values
+            f"{datafolder}/germeval18/{split}.txt",
+            sep="\t", header=None).values
         # preprocess
         self.X = preprocesser(data[:, 0].tolist())
         self.y = torch.tensor(
@@ -201,7 +203,8 @@ class GermEval19(torch.utils.data.Dataset):
         # read data
         split = "gold" if test else "train"
         data = pd.read_csv(
-            f"{datafolder}/germeval19/{split}{fsuf}.txt", sep="\t").values
+            f"{datafolder}/germeval19/{split}{fsuf}.txt",
+            sep="\t", header=None).values
         # preprocess
         self.X = preprocesser(data[:, 0].tolist())
         self.y = torch.tensor(
@@ -318,7 +321,8 @@ class GermEval21vmwe(torch.utils.data.Dataset):
         # read data
         split = "test" if test else "train"
         data = pd.read_csv(
-            f"{datafolder}/germeval21vmwe/{split}.tsv", sep="\t").values
+            f"{datafolder}/germeval21vmwe/{split}.tsv",
+            sep="\t", header=None).values
         # bad examples to be removed
         idxbad = [i for i, x in enumerate(data[:, 2])
                   if x not in self.labels]
