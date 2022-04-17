@@ -393,8 +393,8 @@ class MillionSentiment(torch.utils.data.Dataset):
         SELECT
             Posts.Headline,
             Posts.Body,
-            SUM(IIF(Category='SentimentNegative', Value, 0)),
             SUM(IIF(Category='SentimentNeutral', Value, 0)),
+            SUM(IIF(Category='SentimentNegative', Value, 0)),
             SUM(IIF(Category='SentimentPositive', Value, 0))
         FROM Annotations
         INNER JOIN Posts ON Posts.ID_Post=Annotations.ID_Post
@@ -534,6 +534,150 @@ class MillionBinary(torch.utils.data.Dataset):
 
     def num_classes(self):
         return 2
+
+    def num_features(self):
+        return self.X.shape[1]
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, rowidx):
+        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
+
+
+class SBCHisSwiss(torch.utils.data.Dataset):
+    """ SB-CH, chatmania, Swiss German detection
+    Examples:
+    ---------
+    dset = SBCHisSwiss(
+        preprocesser, test=False,
+        early_stopping=True, split_ratio=0.1)
+    X_valid, y_valid = dset.get_validation_set()
+    n_classes = dset.num_classes()
+    dgen = torch.utils.data.DataLoader(
+        dset, **{'batch_size': 64, 'shuffle': True, 'num_workers': 6})
+    for X, y in dgen: break
+    """
+    def __init__(self,
+                 preprocesser,
+                 datafolder: str = "datasets",
+                 test: bool = False,
+                 early_stopping: bool = False,
+                 split_ratio: float = 0.2,
+                 random_seed: int = 42):
+        # read data
+        df1 = pd.read_csv(f"{datafolder}/sbch/sentiment.csv")
+        df2 = pd.read_csv(f"{datafolder}/sbch/chatmania.csv")
+        df1['sentence_id'] = df1['sentence_id'].astype(int)
+        df2['sentence_id'] = df2['sentence_id'].astype(int)
+        df = df2.merge(df1, how="inner", on="sentence_id")
+        y = (df["un"] == 0).astype(int).tolist()
+        X = df['sentence_text'].tolist()
+
+        # data split
+        if test:
+            _, X, _, y = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+        else:
+            X, _, y, _ = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+
+        # preprocess
+        self.X = preprocesser(X)
+        self.y = torch.tensor(y)
+
+        # prepare data split
+        if early_stopping and (not test):
+            self.indices, self.idx_valid = get_data_split(
+                self.X.shape[0], random_seed=random_seed)
+        else:
+            self.indices = torch.tensor(range(self.X.shape[0]))
+            self.idx_valid = None
+
+    def get_validation_set(self):
+        if self.idx_valid is not None:
+            return self.X[self.idx_valid], self.y[self.idx_valid]
+        else:
+            return None, None
+
+    def num_classes(self):
+        return 2
+
+    def num_features(self):
+        return self.X.shape[1]
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, rowidx):
+        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
+
+
+class SBCHsenti(torch.utils.data.Dataset):
+    """ SB-CH, chatmania, Sentiment Analysis, only comments detected as swiss
+    Examples:
+    ---------
+    dset = SBCHsenti(
+        preprocesser, test=False,
+        early_stopping=True, split_ratio=0.1)
+    X_valid, y_valid = dset.get_validation_set()
+    n_classes = dset.num_classes()
+    dgen = torch.utils.data.DataLoader(
+        dset, **{'batch_size': 64, 'shuffle': True, 'num_workers': 6})
+    for X, y in dgen: break
+    """
+    def __init__(self,
+                 preprocesser,
+                 datafolder: str = "datasets",
+                 test: bool = False,
+                 early_stopping: bool = False,
+                 split_ratio: float = 0.2,
+                 random_seed: int = 42):
+        # read data
+        df1 = pd.read_csv(f"{datafolder}/sbch/sentiment.csv")
+        df2 = pd.read_csv(f"{datafolder}/sbch/chatmania.csv")
+        df1['sentence_id'] = df1['sentence_id'].astype(int)
+        df2['sentence_id'] = df2['sentence_id'].astype(int)
+        df = df2.merge(df1, how="inner", on="sentence_id")
+        # remove non-swiss comments
+        mask_isswiss = df["un"] == 0
+        df = df[mask_isswiss]
+        # remove examples without sentiment
+        mask_hasval = df[['neut', 'neg', 'pos']].sum(axis=1) > 0
+        df = df[mask_hasval]
+        # merge sentiment frequencies to class label
+        y = df[['neut', 'neg', 'pos']].apply(
+            lambda row: np.argmax(row), axis=1).tolist()
+        X = df['sentence_text'].tolist()
+
+        # data split
+        if test:
+            _, X, _, y = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+        else:
+            X, _, y, _ = sklearn.model_selection.train_test_split(
+                X, y, test_size=0.5, random_state=random_seed, stratify=y)
+
+        # preprocess
+        self.X = preprocesser(X)
+        self.y = torch.tensor(y)
+
+        # prepare data split
+        if early_stopping and (not test):
+            self.indices, self.idx_valid = get_data_split(
+                self.X.shape[0], random_seed=random_seed)
+        else:
+            self.indices = torch.tensor(range(self.X.shape[0]))
+            self.idx_valid = None
+
+    def get_validation_set(self):
+        if self.idx_valid is not None:
+            return self.X[self.idx_valid], self.y[self.idx_valid]
+        else:
+            return None, None
+
+    def num_classes(self):
+        return 3
 
     def num_features(self):
         return self.X.shape[1]

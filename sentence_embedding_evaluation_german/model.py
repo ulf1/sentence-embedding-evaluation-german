@@ -4,7 +4,7 @@ from typing import List
 import sklearn.metrics
 from .data import (
     GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe,
-    MillionSentiment, MillionBinary)
+    MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti)
 from collections import Counter
 
 
@@ -170,6 +170,24 @@ def evaluate(downstream_tasks: List[str],
             ds_test = MillionBinary(
                 preprocesser, datafolder=datafolder,
                 test=True, task=downstream_task)
+
+        elif downstream_task == "SBCH-L":
+            ds_train = SBCHisSwiss(
+                preprocesser, datafolder=datafolder,
+                test=False, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            ds_test = SBCHisSwiss(
+                preprocesser, datafolder=datafolder,
+                test=True)
+
+        elif downstream_task == "SBCH-S":
+            ds_train = SBCHsenti(
+                preprocesser, datafolder=datafolder,
+                test=False, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            ds_test = SBCHsenti(
+                preprocesser, datafolder=datafolder,
+                test=True)
 
         else:
             raise Exception(

@@ -32,3 +32,7 @@ cd "$FOLDER"
 mv datasets/1mio/million_post_corpus/corpus.sqlite3 datasets/1mio/corpus.sqlite3
 rm -r datasets/1mio/million_post_corpus
 rm datasets/1mio/million_post_corpus.tar.bz2
+
+mkdir -p datasets/sbch
+wget -q "https://raw.githubusercontent.com/spinningbytes/SB-CH/master/sentiment.csv" -O datasets/sbch/sentiment.csv
+wget -q "https://raw.githubusercontent.com/spinningbytes/SB-CH/master/chatmania.csv" -O datasets/sbch/chatmania.csv
