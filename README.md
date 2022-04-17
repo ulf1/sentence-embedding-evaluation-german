@@ -1,6 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/sentence-embedding-evaluation-german.svg)](https://badge.fury.io/py/sentence-embedding-evaluation-german)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/linguistik/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/linguistik/sentence-embedding-evaluation-german/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/linguistik/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/linguistik/sentence-embedding-evaluation-german/context:python)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/ulf1/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/sentence-embedding-evaluation-german/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ulf1/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/sentence-embedding-evaluation-german/context:python)
 
 # sentence-embedding-evaluation-german
 Sentence embedding evaluation for German.
@@ -104,11 +104,11 @@ results = seeg.evaluate(downstream_tasks, preprocesser, **params)
 ## Appendix
 
 ### Installation
-The `sentence-embedding-evaluation-german` [git repo](http://github.com/linguistik/sentence-embedding-evaluation-german) is available as [PyPi package](https://pypi.org/project/sentence-embedding-evaluation-german)
+The `sentence-embedding-evaluation-german` [git repo](http://github.com/ulf1/sentence-embedding-evaluation-german) is available as [PyPi package](https://pypi.org/project/sentence-embedding-evaluation-german)
 
 ```sh
 pip install sentence-embedding-evaluation-german
-pip install git+ssh://git@github.com/linguistik/sentence-embedding-evaluation-german.git
+pip install git+ssh://git@github.com/ulf1/sentence-embedding-evaluation-german.git
 ```
 
 ### Install a virtual environment
@@ -148,8 +148,8 @@ rm -r .venv
 
 
 ### Support
-Please [open an issue](https://github.com/linguistik/sentence-embedding-evaluation-german/issues/new) for support.
+Please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new) for support.
 
 
 ### Contributing
-Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/linguistik/sentence-embedding-evaluation-german/compare/).
+Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/ulf1/sentence-embedding-evaluation-german/compare/).

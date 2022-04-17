@@ -23,7 +23,7 @@ setuptools.setup(
     version=get_version("sentence_embedding_evaluation_german/__init__.py"),
     description='Sentence embedding evaluation for German',
     long_description=read('README.rst'),
-    url='http://github.com/linguistik/sentence-embedding-evaluation-german',
+    url='http://github.com/ulf1/sentence-embedding-evaluation-german',
     author='Ulf Hamster',
     author_email='554c46@gmail.com',
     license='Apache License 2.0',
