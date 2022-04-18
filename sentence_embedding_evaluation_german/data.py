@@ -409,7 +409,7 @@ class MillionSentiment(torch.utils.data.Dataset):
         """)
         dat = [(merge_mio(row[0], row[1]), np.argmax(row[2:])) for row in res]
         dat = [(x, y) for x, y in dat if len(x) > 0]
-        X = [row[0] for row in dat]
+        X = [str(row[0]) for row in dat]
         y = [int(row[1]) for row in dat]
 
         # data split
@@ -421,7 +421,7 @@ class MillionSentiment(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X.astype(str).tolist())
+        self.X = preprocesser(X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -507,7 +507,7 @@ class MillionBinary(torch.utils.data.Dataset):
         """)
         dat = [(merge_mio(row[0], row[1]), row[2]) for row in res]
         dat = [(x, y) for x, y in dat if len(x) > 0]
-        X = [row[0] for row in dat]
+        X = [str(row[0]) for row in dat]
         y = [int(row[1]) for row in dat]
 
         # data split
@@ -519,7 +519,7 @@ class MillionBinary(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X.astype(str).tolist())
+        self.X = preprocesser(X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -576,7 +576,7 @@ class SBCHisSwiss(torch.utils.data.Dataset):
         df2['sentence_id'] = df2['sentence_id'].astype(int)
         df = df2.merge(df1, how="inner", on="sentence_id")
         y = (df["un"] == 0).astype(int).tolist()
-        X = df['sentence_text'].tolist()
+        X = df['sentence_text'].astype(str).tolist()
 
         # data split
         if test:
@@ -587,7 +587,7 @@ class SBCHisSwiss(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X.astype(str).tolist())
+        self.X = preprocesser(X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -652,7 +652,7 @@ class SBCHsenti(torch.utils.data.Dataset):
         # merge sentiment frequencies to class label
         y = df[['neut', 'neg', 'pos']].apply(
             lambda row: np.argmax(row), axis=1).tolist()
-        X = df['sentence_text'].tolist()
+        X = df['sentence_text'].astype(str).tolist()
 
         # data split
         if test:
@@ -663,7 +663,7 @@ class SBCHsenti(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X.astype(str).tolist())
+        self.X = preprocesser(X)
         self.y = torch.tensor(y)
 
         # prepare data split
