@@ -70,7 +70,7 @@ class GermEval17(torch.utils.data.Dataset):
         data = np.delete(data, idxbad, axis=0)
 
         # preprocess
-        self.X = preprocesser(data[:, 1].tolist())
+        self.X = preprocesser(data[:, 1].astype(str).tolist())
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
         # prepare data split
@@ -135,7 +135,7 @@ class GermEval18(torch.utils.data.Dataset):
             f"{datafolder}/germeval18/{split}.txt",
             sep="\t", header=None).values
         # preprocess
-        self.X = preprocesser(data[:, 0].tolist())
+        self.X = preprocesser(data[:, 0].astype(str).tolist())
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
 
@@ -206,7 +206,7 @@ class GermEval19(torch.utils.data.Dataset):
             f"{datafolder}/germeval19/{split}{fsuf}.txt",
             sep="\t", header=None).values
         # preprocess
-        self.X = preprocesser(data[:, 0].tolist())
+        self.X = preprocesser(data[:, 0].astype(str).tolist())
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
 
@@ -265,7 +265,7 @@ class GermEval21(torch.utils.data.Dataset):
         split = "test" if test else "train"
         data = pd.read_csv(f"{datafolder}/germeval21/{split}.csv").values
         # preprocess
-        self.X = preprocesser(data[:, 1].tolist())
+        self.X = preprocesser(data[:, 1].astype(str).tolist())
         self.y = torch.tensor([row[self.colidx] for row in data])
 
         # prepare data split
@@ -329,7 +329,7 @@ class GermEval21vmwe(torch.utils.data.Dataset):
         data = np.delete(data, idxbad, axis=0)
 
         # preprocess
-        self.X = preprocesser(data[:, 3].tolist())
+        self.X = preprocesser(data[:, 3].astype(str).tolist())
         self.y = torch.tensor([self.labels.index(row[2]) for row in data])
 
         # prepare data split
@@ -421,7 +421,7 @@ class MillionSentiment(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X)
+        self.X = preprocesser(X.astype(str).tolist())
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -519,7 +519,7 @@ class MillionBinary(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X)
+        self.X = preprocesser(X.astype(str).tolist())
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -587,7 +587,7 @@ class SBCHisSwiss(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X)
+        self.X = preprocesser(X.astype(str).tolist())
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -663,7 +663,7 @@ class SBCHsenti(torch.utils.data.Dataset):
                 X, y, test_size=0.5, random_state=random_seed, stratify=y)
 
         # preprocess
-        self.X = preprocesser(X)
+        self.X = preprocesser(X.astype(str).tolist())
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -734,7 +734,7 @@ class LSDC(torch.utils.data.Dataset):
         data = np.delete(data, idxbad, axis=0)
 
         # preprocess
-        self.X = preprocesser(data[:, 2].tolist())
+        self.X = preprocesser(data[:, 2].astype(str).tolist())
         self.y = torch.tensor(
             [self.labels.index(row[0]) for row in data])
         # prepare data split
@@ -800,7 +800,7 @@ class ArchiMob(torch.utils.data.Dataset):
             data = np.vstack([data1, data2])
 
         # preprocess
-        self.X = preprocesser(data[:, 0].tolist())
+        self.X = preprocesser(data[:, 0].astype(str).tolist())
         self.y = torch.tensor(
             [self.labels.index(row[1]) for row in data])
 
