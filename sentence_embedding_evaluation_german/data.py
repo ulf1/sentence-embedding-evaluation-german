@@ -19,7 +19,30 @@ def get_data_split(n: int,
     return idx_train, idx_valid
 
 
-class GermEval17(torch.utils.data.Dataset):
+class BaseDataset(torch.utils.data.Dataset):
+    def __init__(self):
+        pass
+
+    def get_validation_set(self):
+        if self.idx_valid is not None:
+            return self.X[self.idx_valid], self.y[self.idx_valid]
+        else:
+            return None, None
+
+    def num_classes(self):
+        return len(self.labels)
+
+    def num_features(self):
+        return self.X.shape[1]
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, rowidx):
+        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
+
+
+class GermEval17(BaseDataset):
     """ ABSD-Relevance, -Sentiment, -Category
     Examples:
     ---------
@@ -83,26 +106,8 @@ class GermEval17(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval18(torch.utils.data.Dataset):
+class GermEval18(BaseDataset):
     """ OL18A, OL18B
     Examples:
     ---------
@@ -151,26 +156,8 @@ class GermEval18(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval19(torch.utils.data.Dataset):
+class GermEval19(BaseDataset):
     """ OL19A, OL19B, OL19C
     Examples:
     ---------
@@ -224,26 +211,8 @@ class GermEval19(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval21(torch.utils.data.Dataset):
+class GermEval21(BaseDataset):
     """ TOXIC, ENGAGE FCLAIM
     Examples:
     ---------
@@ -284,26 +253,11 @@ class GermEval21(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval21vmwe(torch.utils.data.Dataset):
+class GermEval21vmwe(BaseDataset):
     """ VMWE
     Examples:
     ---------
@@ -350,23 +304,8 @@ class GermEval21vmwe(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
 
 
 def merge_mio(a, b):
@@ -379,7 +318,7 @@ def merge_mio(a, b):
     return s
 
 
-class MillionSentiment(torch.utils.data.Dataset):
+class MillionSentiment(BaseDataset):
     """ Million Dataset
     Examples:
     ---------
@@ -444,26 +383,11 @@ class MillionSentiment(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 3
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class MillionBinary(torch.utils.data.Dataset):
+class MillionBinary(BaseDataset):
     """ Million Dataset
     Tasks:
     ------
@@ -544,26 +468,11 @@ class MillionBinary(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class SBCHisSwiss(torch.utils.data.Dataset):
+class SBCHisSwiss(BaseDataset):
     """ SB-CH, chatmania, Swiss German detection
     Examples:
     ---------
@@ -614,26 +523,11 @@ class SBCHisSwiss(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class SBCHsenti(torch.utils.data.Dataset):
+class SBCHsenti(BaseDataset):
     """ SB-CH, chatmania, Sentiment Analysis, only comments detected as swiss
     Examples:
     ---------
@@ -692,26 +586,11 @@ class SBCHsenti(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 3
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class LSDC(torch.utils.data.Dataset):
+class LSDC(BaseDataset):
     """ The Low Saxon Dialect Classification (LSDC) dataset
 
     Notes:
@@ -765,26 +644,8 @@ class LSDC(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class ArchiMob(torch.utils.data.Dataset):
+class ArchiMob(BaseDataset):
     """ ArchiMob corpus
     Examples:
     ---------
@@ -833,21 +694,3 @@ class ArchiMob(torch.utils.data.Dataset):
         else:
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
-
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
