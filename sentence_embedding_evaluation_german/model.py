@@ -47,6 +47,8 @@ def evaluate(downstream_tasks: List[str],
              early_stopping: bool = False,
              split_ratio: float = 0.2,
              patience: int = 5):
+    # set device
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # start
     results = []
     for downstream_task in downstream_tasks:
@@ -221,17 +223,19 @@ def evaluate(downstream_tasks: List[str],
 
         model = modelbuilder(
             n_features=n_features,
-            n_classes=n_classes)
+            n_classes=n_classes
+        ).to(device)
 
         # loss function: balanced
         loss_fn = torch.nn.CrossEntropyLoss(
             weight=torch.ones(n_classes) / n_classes,
             reduction='mean'
-        )
+        ).to(device)
 
         # early stopping
         if y_valid is not None:
             with torch.no_grad():
+                X_valid, y_valid = X_valid.to(device), y_valid.to(device)
                 valid_loss = loss_fn(model(X_valid), y_valid).item()
                 wait = 0
 
@@ -244,6 +248,8 @@ def evaluate(downstream_tasks: List[str],
             # train
             # epoch_loss = 0.
             for X_train, y_train in dgen:
+                X_train, y_train = X_train.to(device), y_train.to(device)
+                # train it
                 optimizer.zero_grad()
                 y_pred = model(X_train)
                 loss = loss_fn(y_pred, y_train)
@@ -266,11 +272,13 @@ def evaluate(downstream_tasks: List[str],
         dgen_test = torch.utils.data.DataLoader(
             ds_test, batch_size=len(ds_test), shuffle=False)
         for X_test, y_test in dgen_test:
+            X_test, y_test = X_test.to(device), y_test.to(device)
             break
 
         dgen_train = torch.utils.data.DataLoader(
             ds_train, batch_size=len(ds_train), shuffle=False)
         for X_train, y_train in dgen_train:
+            X_train, y_train = X_train.to(device), y_train.to(device)
             break
 
         # compute metrics
