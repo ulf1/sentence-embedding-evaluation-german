@@ -29,6 +29,12 @@ class BaseDataset(torch.utils.data.Dataset):
         else:
             return None, None
 
+    def get_class_weights(self):
+        cnts = torch.bincount(self.y)
+        cnts = torch.maximum(cnts, torch.tensor(1))
+        weights = cnts.sum() / (len(cnts) * cnts)
+        return weights
+
     def num_classes(self):
         return len(self.labels)
 

@@ -86,9 +86,11 @@ def preprocesser(batch: List[str], params: dict=None) -> List[List[float]]:
 
 # (3) Training settings
 params = {
-    'datafolder': '../datasets',
+    'datafolder': './datasets',
+    'bias': True,
+    'balanced': True,
     'batch_size': 128, 
-    'num_epochs': 20,
+    'num_epochs': 500,
     # 'early_stopping': True,
     # 'split_ratio': 0.2,  # if early_stopping=True
     # 'patience': 5,  # if early_stopping=True

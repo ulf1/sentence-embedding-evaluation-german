@@ -41,9 +41,11 @@ def build_model(**kwargs):
 def evaluate(downstream_tasks: List[str],
              preprocesser: types.FunctionType,
              modelbuilder: types.FunctionType = None,
+             bias: bool = True,
              datafolder: str = "./datasets",
              batch_size: int = 64,
              num_epochs: int = 20,
+             balanced: bool = False,
              early_stopping: bool = False,
              split_ratio: float = 0.2,
              patience: int = 5):
@@ -223,12 +225,18 @@ def evaluate(downstream_tasks: List[str],
 
         model = modelbuilder(
             n_features=n_features,
-            n_classes=n_classes
+            n_classes=n_classes,
+            bias=bias
         ).to(device)
 
-        # loss function: balanced
+        # loss function
+        if balanced:
+            class_weights = ds_train.get_class_weights()
+        else:
+            class_weights = torch.ones(n_classes) / n_classes
+
         loss_fn = torch.nn.CrossEntropyLoss(
-            weight=torch.ones(n_classes) / n_classes,
+            weight=class_weights,
             reduction='mean'
         ).to(device)
 
