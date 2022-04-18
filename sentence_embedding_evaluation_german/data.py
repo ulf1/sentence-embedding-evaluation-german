@@ -19,7 +19,36 @@ def get_data_split(n: int,
     return idx_train, idx_valid
 
 
-class GermEval17(torch.utils.data.Dataset):
+class BaseDataset(torch.utils.data.Dataset):
+    def __init__(self):
+        pass
+
+    def get_validation_set(self):
+        if self.idx_valid is not None:
+            return self.X[self.idx_valid], self.y[self.idx_valid]
+        else:
+            return None, None
+
+    def get_class_weights(self):
+        cnts = torch.bincount(self.y)
+        cnts = torch.maximum(cnts, torch.tensor(1))
+        weights = cnts.sum() / (len(cnts) * cnts)
+        return weights
+
+    def num_classes(self):
+        return len(self.labels)
+
+    def num_features(self):
+        return self.X.shape[1]
+
+    def __len__(self):
+        return len(self.indices)
+
+    def __getitem__(self, rowidx):
+        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
+
+
+class GermEval17(BaseDataset):
     """ ABSD-Relevance, -Sentiment, -Category
     Examples:
     ---------
@@ -70,7 +99,9 @@ class GermEval17(torch.utils.data.Dataset):
         data = np.delete(data, idxbad, axis=0)
 
         # preprocess
-        self.X = preprocesser(data[:, 1].tolist())
+        self.X = preprocesser(data[:, 1].astype(str).tolist())
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
         # prepare data split
@@ -81,26 +112,8 @@ class GermEval17(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval18(torch.utils.data.Dataset):
+class GermEval18(BaseDataset):
     """ OL18A, OL18B
     Examples:
     ---------
@@ -135,7 +148,9 @@ class GermEval18(torch.utils.data.Dataset):
             f"{datafolder}/germeval18/{split}.txt",
             sep="\t", header=None).values
         # preprocess
-        self.X = preprocesser(data[:, 0].tolist())
+        self.X = preprocesser(data[:, 0].astype(str).tolist())
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
 
@@ -147,26 +162,8 @@ class GermEval18(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval19(torch.utils.data.Dataset):
+class GermEval19(BaseDataset):
     """ OL19A, OL19B, OL19C
     Examples:
     ---------
@@ -206,7 +203,9 @@ class GermEval19(torch.utils.data.Dataset):
             f"{datafolder}/germeval19/{split}{fsuf}.txt",
             sep="\t", header=None).values
         # preprocess
-        self.X = preprocesser(data[:, 0].tolist())
+        self.X = preprocesser(data[:, 0].astype(str).tolist())
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
 
@@ -218,26 +217,8 @@ class GermEval19(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval21(torch.utils.data.Dataset):
+class GermEval21(BaseDataset):
     """ TOXIC, ENGAGE FCLAIM
     Examples:
     ---------
@@ -265,7 +246,9 @@ class GermEval21(torch.utils.data.Dataset):
         split = "test" if test else "train"
         data = pd.read_csv(f"{datafolder}/germeval21/{split}.csv").values
         # preprocess
-        self.X = preprocesser(data[:, 1].tolist())
+        self.X = preprocesser(data[:, 1].astype(str).tolist())
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor([row[self.colidx] for row in data])
 
         # prepare data split
@@ -276,26 +259,11 @@ class GermEval21(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class GermEval21vmwe(torch.utils.data.Dataset):
+class GermEval21vmwe(BaseDataset):
     """ VMWE
     Examples:
     ---------
@@ -329,7 +297,9 @@ class GermEval21vmwe(torch.utils.data.Dataset):
         data = np.delete(data, idxbad, axis=0)
 
         # preprocess
-        self.X = preprocesser(data[:, 3].tolist())
+        self.X = preprocesser(data[:, 3].astype(str).tolist())
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor([self.labels.index(row[2]) for row in data])
 
         # prepare data split
@@ -340,23 +310,8 @@ class GermEval21vmwe(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
 
 
 def merge_mio(a, b):
@@ -369,7 +324,7 @@ def merge_mio(a, b):
     return s
 
 
-class MillionSentiment(torch.utils.data.Dataset):
+class MillionSentiment(BaseDataset):
     """ Million Dataset
     Examples:
     ---------
@@ -409,7 +364,7 @@ class MillionSentiment(torch.utils.data.Dataset):
         """)
         dat = [(merge_mio(row[0], row[1]), np.argmax(row[2:])) for row in res]
         dat = [(x, y) for x, y in dat if len(x) > 0]
-        X = [row[0] for row in dat]
+        X = [str(row[0]) for row in dat]
         y = [int(row[1]) for row in dat]
 
         # data split
@@ -422,6 +377,8 @@ class MillionSentiment(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -432,26 +389,11 @@ class MillionSentiment(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 3
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class MillionBinary(torch.utils.data.Dataset):
+class MillionBinary(BaseDataset):
     """ Million Dataset
     Tasks:
     ------
@@ -507,7 +449,7 @@ class MillionBinary(torch.utils.data.Dataset):
         """)
         dat = [(merge_mio(row[0], row[1]), row[2]) for row in res]
         dat = [(x, y) for x, y in dat if len(x) > 0]
-        X = [row[0] for row in dat]
+        X = [str(row[0]) for row in dat]
         y = [int(row[1]) for row in dat]
 
         # data split
@@ -520,6 +462,8 @@ class MillionBinary(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -530,26 +474,11 @@ class MillionBinary(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class SBCHisSwiss(torch.utils.data.Dataset):
+class SBCHisSwiss(BaseDataset):
     """ SB-CH, chatmania, Swiss German detection
     Examples:
     ---------
@@ -576,7 +505,7 @@ class SBCHisSwiss(torch.utils.data.Dataset):
         df2['sentence_id'] = df2['sentence_id'].astype(int)
         df = df2.merge(df1, how="inner", on="sentence_id")
         y = (df["un"] == 0).astype(int).tolist()
-        X = df['sentence_text'].tolist()
+        X = df['sentence_text'].astype(str).tolist()
 
         # data split
         if test:
@@ -588,6 +517,8 @@ class SBCHisSwiss(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -598,26 +529,11 @@ class SBCHisSwiss(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 2
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class SBCHsenti(torch.utils.data.Dataset):
+class SBCHsenti(BaseDataset):
     """ SB-CH, chatmania, Sentiment Analysis, only comments detected as swiss
     Examples:
     ---------
@@ -652,7 +568,7 @@ class SBCHsenti(torch.utils.data.Dataset):
         # merge sentiment frequencies to class label
         y = df[['neut', 'neg', 'pos']].apply(
             lambda row: np.argmax(row), axis=1).tolist()
-        X = df['sentence_text'].tolist()
+        X = df['sentence_text'].astype(str).tolist()
 
         # data split
         if test:
@@ -664,6 +580,8 @@ class SBCHsenti(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -674,26 +592,11 @@ class SBCHsenti(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
     def num_classes(self):
         return 3
 
-    def num_features(self):
-        return self.X.shape[1]
 
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class LSDC(torch.utils.data.Dataset):
+class LSDC(BaseDataset):
     """ The Low Saxon Dialect Classification (LSDC) dataset
 
     Notes:
@@ -734,7 +637,9 @@ class LSDC(torch.utils.data.Dataset):
         data = np.delete(data, idxbad, axis=0)
 
         # preprocess
-        self.X = preprocesser(data[:, 2].tolist())
+        self.X = preprocesser(data[:, 2].astype(str).tolist())
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[0]) for row in data])
         # prepare data split
@@ -745,26 +650,8 @@ class LSDC(torch.utils.data.Dataset):
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
 
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
 
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
-
-
-class ArchiMob(torch.utils.data.Dataset):
+class ArchiMob(BaseDataset):
     """ ArchiMob corpus
     Examples:
     ---------
@@ -800,7 +687,9 @@ class ArchiMob(torch.utils.data.Dataset):
             data = np.vstack([data1, data2])
 
         # preprocess
-        self.X = preprocesser(data[:, 0].tolist())
+        self.X = preprocesser(data[:, 0].astype(str).tolist())
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[1]) for row in data])
 
@@ -811,21 +700,3 @@ class ArchiMob(torch.utils.data.Dataset):
         else:
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
-
-    def get_validation_set(self):
-        if self.idx_valid is not None:
-            return self.X[self.idx_valid], self.y[self.idx_valid]
-        else:
-            return None, None
-
-    def num_classes(self):
-        return len(self.labels)
-
-    def num_features(self):
-        return self.X.shape[1]
-
-    def __len__(self):
-        return len(self.indices)
-
-    def __getitem__(self, rowidx):
-        return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
