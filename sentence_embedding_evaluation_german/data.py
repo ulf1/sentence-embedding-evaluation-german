@@ -71,7 +71,8 @@ class GermEval17(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(data[:, 1].astype(str).tolist())
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
         # prepare data split
@@ -137,7 +138,8 @@ class GermEval18(torch.utils.data.Dataset):
             sep="\t", header=None).values
         # preprocess
         self.X = preprocesser(data[:, 0].astype(str).tolist())
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
 
@@ -209,7 +211,8 @@ class GermEval19(torch.utils.data.Dataset):
             sep="\t", header=None).values
         # preprocess
         self.X = preprocesser(data[:, 0].astype(str).tolist())
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[self.colidx]) for row in data])
 
@@ -269,7 +272,8 @@ class GermEval21(torch.utils.data.Dataset):
         data = pd.read_csv(f"{datafolder}/germeval21/{split}.csv").values
         # preprocess
         self.X = preprocesser(data[:, 1].astype(str).tolist())
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor([row[self.colidx] for row in data])
 
         # prepare data split
@@ -334,7 +338,8 @@ class GermEval21vmwe(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(data[:, 3].astype(str).tolist())
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor([self.labels.index(row[2]) for row in data])
 
         # prepare data split
@@ -427,7 +432,8 @@ class MillionSentiment(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -526,7 +532,8 @@ class MillionBinary(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -595,7 +602,8 @@ class SBCHisSwiss(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -672,7 +680,8 @@ class SBCHsenti(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(X)
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(y)
 
         # prepare data split
@@ -744,7 +753,8 @@ class LSDC(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(data[:, 2].astype(str).tolist())
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[0]) for row in data])
         # prepare data split
@@ -811,7 +821,8 @@ class ArchiMob(torch.utils.data.Dataset):
 
         # preprocess
         self.X = preprocesser(data[:, 0].astype(str).tolist())
-        self.X = torch.tensor(self.X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
         self.y = torch.tensor(
             [self.labels.index(row[1]) for row in data])
 
