@@ -287,22 +287,19 @@ def evaluate(downstream_tasks: List[str],
         gc.collect()
         torch.cuda.empty_cache()
 
-        # load datasets (ensure that's in the CPU memory)
+        # inference on test dataset
         dgen_test = torch.utils.data.DataLoader(
-            ds_test, batch_size=len(ds_test), shuffle=False)
-        for X_test, y_test in dgen_test:
-            X_test, y_test = X_test.to(device), y_test.to('cpu')
-            break
+            ds_test, batch_size=batch_size, shuffle=False)
+        y_test = []
+        y_pred = []
+        for X, y in dgen_test:
+            y_test.append(y.to('cpu'))
+            y_pred.append(torch.argmax(model(X.to(device)), dim=1).to('cpu'))
+            torch.cuda.empty_cache()  # del previous batch from GPU RAM
 
-        dgen_train = torch.utils.data.DataLoader(
-            ds_train, batch_size=len(ds_train), shuffle=False)
-        for X_train, y_train in dgen_train:
-            X_train, y_train = X_train.to(device), y_train.to('cpu')
-            break
+        y_test = torch.cat(y_test).detach().numpy()
+        y_pred = torch.cat(y_pred).detach().numpy()
 
-        # compute metrics
-        y_pred = torch.argmax(model(X_test), dim=1)
-        y_pred = y_pred.to('cpu')
         res_test = {
             "num": len(y_pred),
             "acc": float(sklearn.metrics.accuracy_score(y_test, y_pred)),
@@ -312,11 +309,26 @@ def evaluate(downstream_tasks: List[str],
                 y_test, y_pred, average='micro')),
             "f1-balanced": float(sklearn.metrics.f1_score(
                 y_test, y_pred, average='macro')),
-            "distr-pred": count_and_stringify(y_pred.detach().numpy()),
-            "distr-test": count_and_stringify(y_test.detach().numpy()),
+            "distr-pred": count_and_stringify(y_pred),
+            "distr-test": count_and_stringify(y_test),
         }
-        y_pred = torch.argmax(model(X_train), dim=1)
-        y_pred = y_pred.to('cpu')
+        del y_pred, y_test, dgen_test, X, y
+        gc.collect()
+        torch.cuda.empty_cache()
+
+        # inference on training datatsets
+        dgen_train = torch.utils.data.DataLoader(
+            ds_train, batch_size=batch_size, shuffle=False)
+        y_train = []
+        y_pred = []
+        for X, y in dgen_train:
+            y_train.append(y.to('cpu'))
+            y_pred.append(torch.argmax(model(X.to(device)), dim=1).to('cpu'))
+            torch.cuda.empty_cache()  # del previous batch from GPU RAM
+
+        y_train = torch.cat(y_train).detach().numpy()
+        y_pred = torch.cat(y_pred).detach().numpy()
+
         res_train = {
             "num": len(y_pred),
             "acc": float(sklearn.metrics.accuracy_score(y_train, y_pred)),
@@ -326,9 +338,13 @@ def evaluate(downstream_tasks: List[str],
                 y_train, y_pred, average='micro')),
             "f1-balanced": float(sklearn.metrics.f1_score(
                 y_train, y_pred, average='macro')),
-            "distr-pred": count_and_stringify(y_pred.detach().numpy()),
-            "distr-train": count_and_stringify(y_train.detach().numpy()),
+            "distr-pred": count_and_stringify(y_pred),
+            "distr-train": count_and_stringify(y_train),
         }
+        del y_pred, y_train, dgen_train, X, y
+        gc.collect()
+        torch.cuda.empty_cache()
+
         # save results
         results.append({
             "task": str(downstream_task),
@@ -338,8 +354,7 @@ def evaluate(downstream_tasks: List[str],
         })
 
         # force memory flush
-        del model, y_pred
-        del dgen_test, X_test, y_test, dgen_train, X_train, y_train
+        del model
         gc.collect()
         torch.cuda.empty_cache()
 
