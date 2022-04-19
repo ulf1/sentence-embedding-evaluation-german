@@ -9,32 +9,34 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 
 
 ## Downstream tasks
+The available downstream tasks are listed in the table below.
+If you that think that a dataset is missing and should be added, please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new).
 
 | task | type | text type | lang | \#train | \#test | target | info |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | TOXIC | 👿 toxic comments | facebook comments | de-DE | 3244 | 944 | binary {0,1} | GermEval 2021, comments subtask 1, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
 | ENGAGE | 🤗 engaging comments | facebook comments | de-DE | 3244 | 944 | binary {0,1} | GermEval 2021, comments subtask 2, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
 | FCLAIM | ☝️ fact-claiming comments | facebook comments | de-DE | 3244 | 944 | binary {0,1} | GermEval 2021, comments subtask 3, [📁](https://github.com/germeval2021toxic/SharedTask) [📖](https://aclanthology.org/2021.germeval-1.1) |
-| VMWE | verbal idioms | newspaper | de-DE | 6652 | 1447 | binary (figuratively, literally) | GermEval 2021, verbal idioms, [📁](https://github.com/rafehr/vid-disambiguation-sharedtask) [📖](https://aclanthology.org/2020.figlang-1.29.pdf) |
+| VMWE | ☁️ verbal idioms | newspaper | de-DE | 6652 | 1447 | binary (figuratively, literally) | GermEval 2021, verbal idioms, [📁](https://github.com/rafehr/vid-disambiguation-sharedtask) [📖](https://aclanthology.org/2020.figlang-1.29.pdf) |
 | OL19-A | 👿 offensive language | tweets | de-DE | 3980 | 3031 | binary {0,1} | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) [📖](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/germeval/GermEvalSharedTask2019Iggsa.pdf) |
 | OL19-B | 👿 offensive language, fine-grained | tweets | de-DE | 3980 | 3031 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) [📖](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/germeval/GermEvalSharedTask2019Iggsa.pdf) |
 | OL19-C | 👿 explicit vs. implicit offense | tweets | de-DE | 1921 | 930 | binary (explicit, implicit) | GermEval 2018, [📁](https://projects.fzai.h-da.de/iggsa/data-2019/) [📖](https://corpora.linguistik.uni-erlangen.de/data/konvens/proceedings/papers/germeval/GermEvalSharedTask2019Iggsa.pdf) |
 | OL18-A | 👿 offensive language | tweets | de-DE | 5009 | 3398 | binary {0,1} | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
 | OL18-B | 👿 offensive language, fine-grained | tweets | de-DE | 5009 | 3398 | 4 catg. (profanity, insult, abuse, oth.) | GermEval 2018, [📁](https://github.com/uds-lsv/GermEval-2018-Data) |
-| ABSD-1 | 🛤️ relevance classification | 'Deutsche Bahn' customer feedback | de-DE | 19432 | 2555 | binary | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
-| ABSD-2 | 🛤️ Sentiment analysis | 'Deutsche Bahn' customer feedback | de-DE | 19432 | 2555 | 3 catg. (pos., neg., neutral) | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| ABSD-1 | 🤷 relevance classification | 'Deutsche Bahn' customer feedback | de-DE | 19432 | 2555 | binary | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
+| ABSD-2 | 😃😐😡 sentiment analysis | 'Deutsche Bahn' customer feedback | de-DE | 19432 | 2555 | 3 catg. (pos., neg., neutral) | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
 | ABSD-3 | 🛤️ aspect categories | 'Deutsche Bahn' customer feedback | de-DE | 19432 | 2555 | 20 catg. | GermEval 2017, [📁](https://sites.google.com/view/germeval2017-absa/data) |
-| MIO-S | Sentiment analysis | 'Der Standard' newspaper article web comments | de-AT | 1799 | 1800 | 3 catg. | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
-| MIO-O | off-topic comments | 'Der Standard' newspaper article web comments  | de-AT |  1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
-| MIO-I | inappropriate comments | 'Der Standard' newspaper article web comments | de-AT |   1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
-| MIO-D | discriminating comments| 'Der Standard' newspaper article web comments | de-AT |   1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
-| MIO-F | feedback comments | 'Der Standard' newspaper article web comments | de-AT |  3019  |  3019 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
-| MIO-P | personal story comments | 'Der Standard' newspaper article web comments | de-AT |  4668 | 4668 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
-| MIO-A | argumentative comments | 'Der Standard' newspaper article web comments | de-AT |  1799 | 1800 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
-| SBCH-S | sentiment analysis | 'chatmania' app comments, only comments labelled as Swiss German are included | gsw | 394 | 394  | 3 catg. | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
-| SBCH-L | dialect classification | 'chatmania' app comments | gsw | 748 | 748 | binary | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
-| ARCHI | dialect classification |  | gsw | 18809 | 4743 | 4 catg. | ArchiMob, [📁](https://www.spur.uzh.ch/en/departments/research/textgroup/ArchiMob.html) [📖](https://aclanthology.org/W19-1401/) |
-| LSDC | dialect classification | | nds | 74140 | 8602 | 14 catg. | Lower Saxon Dialect Classification, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
+| MIO-S | 😃😐😡 sentiment analysis | 'Der Standard' newspaper article web comments | de-AT | 1799 | 1800 | 3 catg. | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
+| MIO-O | 🤷 off-topic comments | 'Der Standard' newspaper article web comments  | de-AT |  1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
+| MIO-I | 👿 inappropriate comments | 'Der Standard' newspaper article web comments | de-AT |   1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
+| MIO-D | 👿 discriminating comments| 'Der Standard' newspaper article web comments | de-AT |   1799 | 1800  | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
+| MIO-F | 💡 feedback comments | 'Der Standard' newspaper article web comments | de-AT |  3019  |  3019 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
+| MIO-P | ✉️ personal story comments | 'Der Standard' newspaper article web comments | de-AT |  4668 | 4668 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
+| MIO-A | ✴️ argumentative comments | 'Der Standard' newspaper article web comments | de-AT |  1799 | 1800 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
+| SBCH-S | 😃😐😡 sentiment analysis | 'chatmania' app comments, only comments labelled as Swiss German are included | gsw | 394 | 394  | 3 catg. | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
+| SBCH-L | ⛰️ dialect classification | 'chatmania' app comments | gsw | 748 | 748 | binary | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
+| ARCHI | ⛰️ dialect classification |  | gsw | 18809 | 4743 | 4 catg. | ArchiMob, [📁](https://www.spur.uzh.ch/en/departments/research/textgroup/ArchiMob.html) [📖](https://aclanthology.org/W19-1401/) |
+| LSDC | 🌊 dialect classification | | nds | 74140 | 8602 | 14 catg. | Lower Saxon Dialect Classification, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
 
 
 
@@ -117,9 +119,9 @@ params = {
 
 ### Step (4) Downstream tasks
 We suggest to run the following downstream tasks.
-`FCLAIM` flags comments that requires manual fact-checking because these contains reasoning, arguments or claims that might be false.
-`VMWE` differentiate texts with figurative or literal multi-word expressions.
-`OL19-C` distinct between explicit and implicit offensive language.
+`FCLAIM` flags comments that requires manual fact-checking because these contain reasoning, arguments or claims that might be false.
+`VMWE` differentiates texts with figurative or literal multi-word expressions.
+`OL19-C` distincts between explicit and implicit offensive language.
 `ABSD-2` is a sentiment analysis dataset with customer reviews.
 These four dataset so far can be assumed to be Standard German from Germany (de-DE).
 `MIO-P` flags Austrian German (de-AT) comments if these contain personal stories.
@@ -196,7 +198,7 @@ rm -r .venv
 ```
 
 ### New Dataset recommendation
-If you can recommend another or new dataset, please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new).
+If you want to recommend another or a new dataset, please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new).
 
 
 ### Troubleshooting
