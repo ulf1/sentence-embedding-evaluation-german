@@ -280,17 +280,18 @@ def evaluate(downstream_tasks: List[str],
         dgen_test = torch.utils.data.DataLoader(
             ds_test, batch_size=len(ds_test), shuffle=False)
         for X_test, y_test in dgen_test:
-            X_test, y_test = X_test.to('cpu'), y_test.to('cpu')
+            X_test, y_test = X_test.to(device), y_test.to('cpu')
             break
 
         dgen_train = torch.utils.data.DataLoader(
             ds_train, batch_size=len(ds_train), shuffle=False)
         for X_train, y_train in dgen_train:
-            X_train, y_train = X_train.to('cpu'), y_train.to('cpu')
+            X_train, y_train = X_train.to(device), y_train.to('cpu')
             break
 
         # compute metrics
         y_pred = torch.argmax(model(X_test), dim=1)
+        y_pred = y_pred.to('cpu')
         res_test = {
             "num": len(y_pred),
             "acc": sklearn.metrics.accuracy_score(y_test, y_pred),
@@ -303,6 +304,7 @@ def evaluate(downstream_tasks: List[str],
             "distr-test": dict(Counter(y_test.detach().numpy())),
         }
         y_pred = torch.argmax(model(X_train), dim=1)
+        y_pred = y_pred.to('cpu')
         res_train = {
             "num": len(y_pred),
             "acc": sklearn.metrics.accuracy_score(y_train, y_pred),
