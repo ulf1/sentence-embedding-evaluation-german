@@ -276,17 +276,17 @@ def evaluate(downstream_tasks: List[str],
                     if wait > patience:
                         break
 
-        # load datasets
+        # load datasets (ensure that's in the CPU memory)
         dgen_test = torch.utils.data.DataLoader(
             ds_test, batch_size=len(ds_test), shuffle=False)
         for X_test, y_test in dgen_test:
-            X_test, y_test = X_test.to(device), y_test.to(device)
+            X_test, y_test = X_test.to('cpu'), y_test.to('cpu')
             break
 
         dgen_train = torch.utils.data.DataLoader(
             ds_train, batch_size=len(ds_train), shuffle=False)
         for X_train, y_train in dgen_train:
-            X_train, y_train = X_train.to(device), y_train.to(device)
+            X_train, y_train = X_train.to('cpu'), y_train.to('cpu')
             break
 
         # compute metrics
