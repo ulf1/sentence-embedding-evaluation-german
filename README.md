@@ -35,8 +35,8 @@ If you that think that a dataset is missing and should be added, please [open an
 | MIO-A | ✴️ argumentative comments | 'Der Standard' newspaper article web comments | de-AT |  1799 | 1800 | binary | One Million Posts Corpus, [📁](https://github.com/OFAI/million-post-corpus/releases/tag/v1.0.0) |
 | SBCH-S | 😃😐😡 sentiment analysis | 'chatmania' app comments, only comments labelled as Swiss German are included | gsw | 394 | 394  | 3 catg. | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
 | SBCH-L | ⛰️ dialect classification | 'chatmania' app comments | gsw | 748 | 748 | binary | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
-| ARCHI | ⛰️ dialect classification |  | gsw | 18809 | 4743 | 4 catg. | ArchiMob, [📁](https://www.spur.uzh.ch/en/departments/research/textgroup/ArchiMob.html) [📖](https://aclanthology.org/W19-1401/) |
-| LSDC | 🌊 dialect classification | | nds | 74140 | 8602 | 14 catg. | Lower Saxon Dialect Classification, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
+| ARCHI | ⛰️ dialect classification | Audio transcriptions of interviews in four dialect regions of Switzerland | gsw | 18809 | 4743 | 4 catg. | ArchiMob, [📁](https://www.spur.uzh.ch/en/departments/research/textgroup/ArchiMob.html) [📖](https://link.springer.com/article/10.1007/s10579-019-09457-5) |
+| LSDC | 🌊 dialect classification | several genres (e.g. formal texts, fairytales, novels, poetry, theatre plays) from the 19th to 21st centuries. Extincted Lower Prussia excluded. Gronings excluded due to lack of test examples. | nds | 74140 | 8602 | 14 catg. | Lower Saxon Dialect Classification, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
 
 
 
