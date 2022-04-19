@@ -39,6 +39,10 @@ def build_model(**kwargs):
         output_size=kwargs['n_classes'])
 
 
+def count_and_stringify(x):
+    return {str(k): str(v) for k, v in dict(Counter(x)).items()}
+
+
 def evaluate(downstream_tasks: List[str],
              preprocesser: types.FunctionType,
              modelbuilder: types.FunctionType = None,
@@ -308,8 +312,8 @@ def evaluate(downstream_tasks: List[str],
                 y_test, y_pred, average='micro')),
             "f1-balanced": float(sklearn.metrics.f1_score(
                 y_test, y_pred, average='macro')),
-            "distr-pred": dict(Counter(y_pred.detach().numpy())),
-            "distr-test": dict(Counter(y_test.detach().numpy())),
+            "distr-pred": count_and_stringify(y_pred.detach().numpy()),
+            "distr-test": count_and_stringify(y_test.detach().numpy()),
         }
         y_pred = torch.argmax(model(X_train), dim=1)
         y_pred = y_pred.to('cpu')
@@ -322,8 +326,8 @@ def evaluate(downstream_tasks: List[str],
                 y_train, y_pred, average='micro')),
             "f1-balanced": float(sklearn.metrics.f1_score(
                 y_train, y_pred, average='macro')),
-            "distr-pred": dict(Counter(y_pred.detach().numpy())),
-            "distr-train": dict(Counter(y_train.detach().numpy())),
+            "distr-pred": count_and_stringify(y_pred.detach().numpy()),
+            "distr-train": count_and_stringify(y_train.detach().numpy()),
         }
         # save results
         results.append({
