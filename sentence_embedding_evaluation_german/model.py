@@ -328,7 +328,7 @@ def evaluate(downstream_tasks: List[str],
 
         y_train = torch.cat(y_train).detach().numpy()
         y_pred = torch.cat(y_pred).detach().numpy()
-        
+
         res_train = {
             "num": len(y_pred),
             "acc": float(sklearn.metrics.accuracy_score(y_train, y_pred)),
