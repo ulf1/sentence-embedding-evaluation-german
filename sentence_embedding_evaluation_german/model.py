@@ -6,6 +6,7 @@ from .data import (
     GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe,
     MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti, ArchiMob, LSDC)
 from collections import Counter
+import gc
 
 
 class ClassiferModel(torch.nn.Module):
@@ -257,6 +258,7 @@ def evaluate(downstream_tasks: List[str],
             # epoch_loss = 0.
             for X_train, y_train in dgen:
                 X_train, y_train = X_train.to(device), y_train.to(device)
+                torch.cuda.empty_cache()  # del previous batch from GPU RAM
                 # train it
                 optimizer.zero_grad()
                 y_pred = model(X_train)
@@ -275,6 +277,11 @@ def evaluate(downstream_tasks: List[str],
                         wait = 0
                     if wait > patience:
                         break
+
+        # force memory flush
+        del optimizer, X_valid, y_valid, dgen, X_train, y_train
+        gc.collect()
+        torch.cuda.empty_cache()
 
         # load datasets (ensure that's in the CPU memory)
         dgen_test = torch.utils.data.DataLoader(
@@ -325,6 +332,12 @@ def evaluate(downstream_tasks: List[str],
             "test": res_test,
             "train": res_train
         })
+
+        # force memory flush
+        del model, y_pred
+        del dgen_test, X_test, y_test, dgen_train, X_train, y_train
+        gc.collect()
+        torch.cuda.empty_cache()
 
     # done
     return results
