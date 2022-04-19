@@ -9,6 +9,8 @@ This library is inspired by [SentEval](https://github.com/facebookresearch/SentE
 
 
 ## Downstream tasks
+The available downstream tasks are listed in the table below.
+If you that think that a dataset is missing and should be added, please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new).
 
 | task | type | text type | lang | \#train | \#test | target | info |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -196,7 +198,7 @@ rm -r .venv
 ```
 
 ### New Dataset recommendation
-If you can recommend another or new dataset, please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new).
+If you want to recommend another or a new dataset, please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new).
 
 
 ### Troubleshooting
