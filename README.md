@@ -46,28 +46,39 @@ bash download-datasets.sh
 ```
 
 ## Usage example
+Import the required Python packages.
 
 ```py
 from typing import List
 import sentence_embedding_evaluation_german as seeg
 import torch
+```
 
+Load your pretrained model.
+In the following example, we generate a random embedding matrix for demonstration purposes.
+```py
 # (1) Instantiate your Embedding model
 emb_dim = 512
 vocab_sz = 128
 emb = torch.randn((vocab_sz, emb_dim), requires_grad=False)
 emb = torch.nn.Embedding.from_pretrained(emb)
 assert emb.weight.requires_grad == False
+```
 
+You need to specify your own preprocessing routine.
+The `preprocessor` function must convert a list of strings `batch` (`List[str]`)
+into a list of feature vectors, or resp. a list of sentence embeddings (`List[List[float]]`).
+In the following example, we generate some sort of token IDs, retrieve the vectors from our random matrix, and average these to feature vectors for demonstration purposes.
+```py
 # (2) Specify the preprocessing
 def preprocesser(batch: List[str], params: dict=None) -> List[List[float]]:
     """ Specify your embedding or pretrained encoder here
     Paramters:
     ----------
-    params : dict
-        The params dictionary
     batch : List[str]
         A list of sentence as string
+    params : dict
+        The params dictionary
     Returns:
     --------
     List[List[float]]
@@ -83,7 +94,12 @@ def preprocesser(batch: List[str], params: dict=None) -> List[List[float]]:
         features.append(h.mean(axis=0))
     features = torch.stack(features, dim=0)
     return features
+```
 
+We suggest to train a final layer with bias term (`'bias':True`),
+on a loss function weighted by the class frequency (`'balanced':True`),
+a batch size of 128, an over 500 epochs without early stopping.
+```py
 # (3) Training settings
 params = {
     'datafolder': './datasets',
@@ -95,10 +111,19 @@ params = {
     # 'split_ratio': 0.2,  # if early_stopping=True
     # 'patience': 5,  # if early_stopping=True
 }
+```
 
+We suggest to run the following downstream tasks.
+```py
 # (4) Specify downstream tasks
 downstream_tasks = ['FCLAIM', 'VMWE', 'OL19-C', 'ABSD-2', 'MIO-P', 'ARCHI', 'LSDC']
+```
 
+Finally, start the evaluation. 
+The suggested downstream tasks (step 4) with 500 epochs (step 3) 
+might requires 10-40 minutes but it's highly dependent on your computing resources.
+So grab a ☕ or 🍵.
+```py
 # (5) Run experiments
 results = seeg.evaluate(downstream_tasks, preprocesser, **params)
 ```
