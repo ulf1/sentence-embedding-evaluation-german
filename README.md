@@ -117,9 +117,9 @@ params = {
 
 ### Step (4) Downstream tasks
 We suggest to run the following downstream tasks.
-`FCLAIM` flags comments that requires manual fact-checking because these contains reasoning, arguments or claims that might be false.
-`VMWE` differentiate texts with figurative or literal multi-word expressions.
-`OL19-C` distinct between explicit and implicit offensive language.
+`FCLAIM` flags comments that requires manual fact-checking because these contain reasoning, arguments or claims that might be false.
+`VMWE` differentiates texts with figurative or literal multi-word expressions.
+`OL19-C` distincts between explicit and implicit offensive language.
 `ABSD-2` is a sentiment analysis dataset with customer reviews.
 These four dataset so far can be assumed to be Standard German from Germany (de-DE).
 `MIO-P` flags Austrian German (de-AT) comments if these contain personal stories.
