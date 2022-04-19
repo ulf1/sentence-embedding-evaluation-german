@@ -1,0 +1,5 @@
+# deepset
+model.bin
+# fasttext
+cc.de.300.bin
+cc.de.300.bin*

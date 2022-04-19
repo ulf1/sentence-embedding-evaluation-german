@@ -111,3 +111,5 @@ profile/data*
 
 datasets/
 README.rst
+
+.DS_Store
