@@ -142,6 +142,21 @@ So grab a ☕ or 🍵.
 results = seeg.evaluate(downstream_tasks, preprocesser, **params)
 ```
 
+## Demo notebooks
+Start Jupyter
+```sh
+source .venv/bin/activate
+jupyter lab
+```
+
+Open an demo notebook
+
+- [Generic demo](demo/Jupyter%20Demo.ipynb)
+- [deepset example](demo/deepset%20example.ipynb)
+- [fasttext example](demo/fastText%20example.ipynb)
+- [SBert example](demo/SBert%20example.ipynb)
+
+
 ## Appendix
 
 ### Installation & Downloads
