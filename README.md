@@ -54,10 +54,10 @@ import sentence_embedding_evaluation_german as seeg
 import torch
 ```
 
-Load your pretrained model.
+### Step (1) Load your pretrained model
 In the following example, we generate a random embedding matrix for demonstration purposes.
 ```py
-# (1) Instantiate your Embedding model
+# (1) Instantiate an embedding model
 emb_dim = 512
 vocab_sz = 128
 emb = torch.randn((vocab_sz, emb_dim), requires_grad=False)
@@ -65,6 +65,7 @@ emb = torch.nn.Embedding.from_pretrained(emb)
 assert emb.weight.requires_grad == False
 ```
 
+### Step (2) Specify your `preprocessor` function
 You need to specify your own preprocessing routine.
 The `preprocessor` function must convert a list of strings `batch` (`List[str]`)
 into a list of feature vectors, or resp. a list of sentence embeddings (`List[List[float]]`).
@@ -96,6 +97,7 @@ def preprocesser(batch: List[str], params: dict=None) -> List[List[float]]:
     return features
 ```
 
+### Step (3) Training settings
 We suggest to train a final layer with bias term (`'bias':True`),
 on a loss function weighted by the class frequency (`'balanced':True`),
 a batch size of 128, an over 500 epochs without early stopping.
@@ -113,6 +115,7 @@ params = {
 }
 ```
 
+### Step (4) Downstream tasks
 We suggest to run the following downstream tasks.
 `FCLAIM` flags comments that requires manual fact-checking because these contains reasoning, arguments or claims that might be false.
 `VMWE` differentiate texts with figurative or literal multi-word expressions.
@@ -127,6 +130,7 @@ These four dataset so far can be assumed to be Standard German from Germany (de-
 downstream_tasks = ['FCLAIM', 'VMWE', 'OL19-C', 'ABSD-2', 'MIO-P', 'ARCHI', 'LSDC']
 ```
 
+### Step (5) Run the experiments
 Finally, start the evaluation. 
 The suggested downstream tasks (step 4) with 500 epochs (step 3) 
 might requires 10-40 minutes but it's highly dependent on your computing resources.
