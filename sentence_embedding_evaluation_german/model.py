@@ -294,12 +294,13 @@ def evaluate(downstream_tasks: List[str],
         y_pred = y_pred.to('cpu')
         res_test = {
             "num": len(y_pred),
-            "acc": sklearn.metrics.accuracy_score(y_test, y_pred),
-            "acc-balanced": sklearn.metrics.balanced_accuracy_score(
-                y_test, y_pred),
-            "f1": sklearn.metrics.f1_score(y_test, y_pred, average='micro'),
-            "f1-balanced": sklearn.metrics.f1_score(
-                y_test, y_pred, average='macro'),
+            "acc": float(sklearn.metrics.accuracy_score(y_test, y_pred)),
+            "acc-balanced": float(sklearn.metrics.balanced_accuracy_score(
+                y_test, y_pred)),
+            "f1": float(sklearn.metrics.f1_score(
+                y_test, y_pred, average='micro')),
+            "f1-balanced": float(sklearn.metrics.f1_score(
+                y_test, y_pred, average='macro')),
             "distr-pred": dict(Counter(y_pred.detach().numpy())),
             "distr-test": dict(Counter(y_test.detach().numpy())),
         }
@@ -307,19 +308,20 @@ def evaluate(downstream_tasks: List[str],
         y_pred = y_pred.to('cpu')
         res_train = {
             "num": len(y_pred),
-            "acc": sklearn.metrics.accuracy_score(y_train, y_pred),
-            "acc-balanced": sklearn.metrics.balanced_accuracy_score(
-                y_train, y_pred),
-            "f1": sklearn.metrics.f1_score(y_train, y_pred, average='micro'),
-            "f1-balanced": sklearn.metrics.f1_score(
-                y_train, y_pred, average='macro'),
+            "acc": float(sklearn.metrics.accuracy_score(y_train, y_pred)),
+            "acc-balanced": float(sklearn.metrics.balanced_accuracy_score(
+                y_train, y_pred)),
+            "f1": float(sklearn.metrics.f1_score(
+                y_train, y_pred, average='micro')),
+            "f1-balanced": float(sklearn.metrics.f1_score(
+                y_train, y_pred, average='macro')),
             "distr-pred": dict(Counter(y_pred.detach().numpy())),
             "distr-train": dict(Counter(y_train.detach().numpy())),
         }
         # save results
         results.append({
-            "task": downstream_task,
-            "epochs": epoch + 1,
+            "task": str(downstream_task),
+            "epochs": int(epoch + 1),
             "test": res_test,
             "train": res_train
         })
