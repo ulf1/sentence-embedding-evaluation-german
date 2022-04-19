@@ -320,8 +320,8 @@ def evaluate(downstream_tasks: List[str],
         }
         # save results
         results.append({
-            "task": downstream_task,
-            "epochs": epoch + 1,
+            "task": str(downstream_task),
+            "epochs": int(epoch + 1),
             "test": res_test,
             "train": res_train
         })
