@@ -18,7 +18,7 @@ class ClassiferModel(torch.nn.Module):
         super(ClassiferModel, self).__init__(*args, **kwargs)
         self.bias = bias
         self.final = torch.nn.Linear(
-            input_size, output_size, bias=bias)
+            input_size, output_size, bias=self.bias)
         self.soft = torch.nn.Softmax(dim=1)
         self._reset_parameters()
 
@@ -36,7 +36,8 @@ class ClassiferModel(torch.nn.Module):
 def build_model(**kwargs):
     return ClassiferModel(
         input_size=kwargs['n_features'],
-        output_size=kwargs['n_classes'])
+        output_size=kwargs['n_classes'],
+        bias=kwargs['bias'])
 
 
 def count_and_stringify(x):
@@ -50,10 +51,11 @@ def evaluate(downstream_tasks: List[str],
              datafolder: str = "./datasets",
              batch_size: int = 64,
              num_epochs: int = 20,
-             balanced: bool = False,
+             balanced: bool = True,
              early_stopping: bool = False,
              split_ratio: float = 0.2,
-             patience: int = 5):
+             patience: int = 5,
+             verbose: int = 0):
     # set device
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     # start
@@ -224,6 +226,9 @@ def evaluate(downstream_tasks: List[str],
         dgen = torch.utils.data.DataLoader(
             ds_train, batch_size=batch_size, shuffle=False)
 
+        if verbose:
+            print(f"Dataset loaded: {downstream_task}")
+
         # init new model
         if not isinstance(modelbuilder, types.FunctionType):
             modelbuilder = build_model
@@ -259,7 +264,7 @@ def evaluate(downstream_tasks: List[str],
 
         for epoch in range(num_epochs):
             # train
-            # epoch_loss = 0.
+            epoch_loss = 0.
             for X_train, y_train in dgen:
                 X_train, y_train = X_train.to(device), y_train.to(device)
                 torch.cuda.empty_cache()  # del previous batch from GPU RAM
@@ -269,7 +274,7 @@ def evaluate(downstream_tasks: List[str],
                 loss = loss_fn(y_pred, y_train)
                 loss.backward()
                 optimizer.step()
-                # epoch_loss += loss.item()
+                epoch_loss += loss.item()
             # early stopping
             if y_valid is not None:
                 with torch.no_grad():
@@ -279,8 +284,13 @@ def evaluate(downstream_tasks: List[str],
                     else:
                         valid_loss = tmp
                         wait = 0
+                        if verbose:
+                            print(f"new val_loss: {valid_loss}")
                     if wait > patience:
                         break
+            # stats
+            if verbose:
+                print(f"epoch {epoch + 1} | loss: {epoch_loss / len(dgen)}")
 
         # force memory flush
         del optimizer, X_valid, y_valid, dgen, X_train, y_train
