@@ -39,7 +39,7 @@ class BaseDataset(torch.utils.data.Dataset):
         return len(self.labels)
 
     def num_features(self):
-        return self.X.shape[1]
+        return self.X.shape[-1]
 
     def __len__(self):
         return len(self.indices)
