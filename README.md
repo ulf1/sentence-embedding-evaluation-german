@@ -48,6 +48,11 @@ If you that think that a dataset is missing and should be added, please [open an
 bash download-datasets.sh
 ```
 
+Check if files were actually downloaded
+```sh
+find ./datasets/**/ -exec ls -lh {} \;
+```
+
 ## Usage example
 Import the required Python packages.
 
