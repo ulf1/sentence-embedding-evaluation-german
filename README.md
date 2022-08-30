@@ -178,10 +178,11 @@ bash download-datasets.sh
 
 
 ### Development work for this package
-Install a virtual environment
+
+#### Install a virtual environment
 
 ```sh
-python3.7 -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt --no-cache-dir
@@ -191,12 +192,29 @@ pip install -r requirements-demo.txt --no-cache-dir
 
 (If your git repo is stored in a folder with whitespaces, then don't use the subfolder `.venv`. Use an absolute path without whitespaces.)
 
-Python commands
+#### Install conda environment for GPU
+
+```sh
+conda install -y pip
+conda create -y --name gpu-venv-seeg python=3.9 pip
+conda activate gpu-venv-seeg
+# install CUDA support
+conda install -y cudatoolkit=11.3.1 cudnn=8.3.2 -c conda-forge
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CONDA_PREFIX/lib/
+pip install torch==1.12.1+cu113 torchvision torchaudio -f https://download.pytorch.org/whl/torch_stable.html
+# install other packages
+pip install -r requirements.txt --no-cache-dir
+pip install -r requirements-dev.txt --no-cache-dir
+pip install -r requirements-demo.txt --no-cache-dir
+watch -n 0.5 nvidia-smi
+```
+
+#### Python commands
 
 * Jupyter for the examples: `jupyter lab`
 * Check syntax: `flake8 --ignore=F401 --exclude=$(grep -v '^#' .gitignore | xargs | sed -e 's/ /,/g')`
 
-Publish package
+#### Publish package
 
 ```sh
 pandoc README.md --from markdown --to rst -s -o README.rst
@@ -204,7 +222,7 @@ python setup.py sdist
 twine upload -r pypi dist/*
 ```
 
-Clean up 
+#### Clean up 
 
 ```sh
 find . -type f -name "*.pyc" | xargs rm
