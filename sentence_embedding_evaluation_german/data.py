@@ -47,6 +47,12 @@ class BaseDataset(torch.utils.data.Dataset):
     def __getitem__(self, rowidx):
         return self.X[self.indices[rowidx]], self.y[self.indices[rowidx]]
 
+    def __str__(self):
+        return (
+            f"{self.__len__():7d} examples,"
+            f"{self.num_features():5d} features"
+        )
+
 
 class GermEval17(BaseDataset):
     """ ABSD-Relevance, -Sentiment, -Category

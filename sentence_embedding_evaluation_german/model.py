@@ -62,159 +62,198 @@ def evaluate(downstream_tasks: List[str],
     results = []
     for downstream_task in downstream_tasks:
         # load datasets
+        if verbose:
+            print(f"Load dataset: {downstream_task}")
+
         if downstream_task == "ABSD-1":
             ds_train = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Relevance", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Relevance", test=True)
+            print(" test:", ds_test)
         elif downstream_task == "ABSD-2":
             ds_train = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Sentiment", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Sentiment", test=True)
+            print(" test:", ds_test)
         elif downstream_task == "ABSD-3":
             ds_train = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Category", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval17(
                 preprocesser, datafolder=datafolder,
                 task="Category", test=True)
+            print(" test:", ds_test)
 
         elif downstream_task == "OL18-A":
             ds_train = GermEval18(
                 preprocesser, datafolder=datafolder,
                 task="A", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval18(
                 preprocesser, datafolder=datafolder,
                 task="A", test=True)
+            print(" test:", ds_test)
         elif downstream_task == "OL18-B":
             ds_train = GermEval18(
                 preprocesser, datafolder=datafolder,
                 task="B", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval18(
                 preprocesser, datafolder=datafolder,
                 task="B", test=True)
+            print(" test:", ds_test)
 
         elif downstream_task == "OL19-A":
             ds_train = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="A", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="A", test=True)
+            print(" test:", ds_test)
         elif downstream_task == "OL19-B":
             ds_train = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="B", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="B", test=True)
+            print(" test:", ds_test)
         elif downstream_task == "OL19-C":
             ds_train = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="C", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval19(
                 preprocesser, datafolder=datafolder,
                 task="C", test=True)
+            print(" test:", ds_test)
 
         elif downstream_task == "TOXIC":
             ds_train = GermEval21(
                 preprocesser, datafolder=datafolder,
                 task="TOXIC", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval21(
                 preprocesser, datafolder=datafolder,
                 task="TOXIC", test=True)
+            print(" test:", ds_test)
         elif downstream_task == "ENGAGE":
             ds_train = GermEval21(
                 preprocesser, datafolder=datafolder,
                 task="ENGAGE", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval21(
                 preprocesser, datafolder=datafolder,
                 task="ENGAGE", test=True)
+            print(" test:", ds_test)
         elif downstream_task == "FCLAIM":
             ds_train = GermEval21(
                 preprocesser, datafolder=datafolder,
                 task="FCLAIM", test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval21(
                 preprocesser, datafolder=datafolder,
                 task="FCLAIM", test=True)
+            print(" test:", ds_test)
 
         elif downstream_task == "VMWE":
             ds_train = GermEval21vmwe(
                 preprocesser, datafolder=datafolder,
                 test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = GermEval21vmwe(
                 preprocesser, datafolder=datafolder,
                 test=True)
+            print(" test:", ds_test)
 
         elif downstream_task == "MIO-S":
             ds_train = MillionSentiment(
                 preprocesser, datafolder=datafolder,
                 test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = MillionSentiment(
                 preprocesser, datafolder=datafolder,
                 test=True)
+            print(" test:", ds_test)
         elif downstream_task in ['MIO-O', 'MIO-I', 'MIO-D', 'MIO-F', 'MIO-P',
                                  'MIO-A']:
             ds_train = MillionBinary(
                 preprocesser, datafolder=datafolder,
                 test=False, task=downstream_task, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = MillionBinary(
                 preprocesser, datafolder=datafolder,
                 test=True, task=downstream_task)
+            print(" test:", ds_test)
 
         elif downstream_task == "SBCH-L":
             ds_train = SBCHisSwiss(
                 preprocesser, datafolder=datafolder,
                 test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = SBCHisSwiss(
                 preprocesser, datafolder=datafolder,
                 test=True)
+            print(" test:", ds_test)
         elif downstream_task == "SBCH-S":
             ds_train = SBCHsenti(
                 preprocesser, datafolder=datafolder,
                 test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = SBCHsenti(
                 preprocesser, datafolder=datafolder,
                 test=True)
+            print(" test:", ds_test)
 
         elif downstream_task == "ARCHI":
             ds_train = ArchiMob(
                 preprocesser, datafolder=datafolder,
                 test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = ArchiMob(
                 preprocesser, datafolder=datafolder,
                 test=True)
+            print(" test:", ds_test)
 
         elif downstream_task == "LSDC":
             ds_train = LSDC(
                 preprocesser, datafolder=datafolder,
                 test=False, split_ratio=split_ratio,
                 early_stopping=early_stopping)
+            print("train:", ds_train)
             ds_test = LSDC(
                 preprocesser, datafolder=datafolder,
                 test=True)
+            print(" test:", ds_test)
         else:
             raise Exception(
                 f"Downstream task '{downstream_task}' not available.")
@@ -225,9 +264,6 @@ def evaluate(downstream_tasks: List[str],
         n_features = ds_train.num_features()
         dgen = torch.utils.data.DataLoader(
             ds_train, batch_size=batch_size, shuffle=False)
-
-        if verbose:
-            print(f"Dataset loaded: {downstream_task}")
 
         # init new model
         if not isinstance(modelbuilder, types.FunctionType):
