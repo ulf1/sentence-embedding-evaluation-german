@@ -38,7 +38,7 @@ If you that think that a dataset is missing and should be added, please [open an
 | SBCH-L | ⛰️ dialect classification | 'chatmania' app comments | gsw | 748 | 748 | binary | SB-CH Corpus, [📁](https://github.com/spinningbytes/SB-CH) |
 | ARCHI | ⛰️ dialect classification | Audio transcriptions of interviews in four dialect regions of Switzerland | gsw | 18809 | 4743 | 4 catg. | ArchiMob, [📁](https://www.spur.uzh.ch/en/departments/research/textgroup/ArchiMob.html) [📖](https://aclanthology.org/L16-1641) |
 | LSDC | 🌊 dialect classification | several genres (e.g. formal texts, fairytales, novels, poetry, theatre plays) from the 19th to 21st centuries. Extincted Lower Prussia excluded. Gronings excluded due to lack of test examples. | nds | 74140 | 8602 | 14 catg. | Lower Saxon Dialect Classification, [📁](https://github.com/Helsinki-NLP/LSDC) [📖](https://www.aclweb.org/anthology/2020.vardial-1.3) |
-| KLEX-P | 🤔 text level | Conceptual complexity classification of texts written for adults (Wikipedia), children between 6-12 (Klexikon), and beginner readers (MiniKlexikon); Paragraph split indicated by `<eop>` or ` * ` | de | 8153 | 8264 | 3 catg. | [📁](https://zenodo.org/record/6319803) [📖](https://aclanthology.org/2021.konvens-1.23) |
+| KLEX-P | 🤔 text level | Conceptual complexity classification of texts written for adults (Wikipedia), children between 6-12 (Klexikon), and beginner readers (MiniKlexikon); Paragraph split indicated by `<eop>` or ` * ` | de | 8264 | 8153 | 3 catg. | [📁](https://zenodo.org/record/6319803) [📖](https://aclanthology.org/2021.konvens-1.23) |
 
 
 ## Download datasets
