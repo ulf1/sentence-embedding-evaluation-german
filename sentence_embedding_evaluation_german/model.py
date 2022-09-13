@@ -4,7 +4,8 @@ from typing import List
 import sklearn.metrics
 from .data import (
     GermEval17, GermEval18, GermEval19, GermEval21, GermEval21vmwe,
-    MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti, ArchiMob, LSDC)
+    MillionSentiment, MillionBinary, SBCHisSwiss, SBCHsenti, ArchiMob, LSDC,
+    KLEX)
 from collections import Counter
 import gc
 
@@ -254,6 +255,18 @@ def evaluate(downstream_tasks: List[str],
                 preprocesser, datafolder=datafolder,
                 test=True)
             print(" test:", ds_test)
+
+        elif downstream_task == "KLEX-P":
+            ds_train = KLEX(
+                preprocesser, datafolder=datafolder,
+                test=False, split_ratio=split_ratio,
+                early_stopping=early_stopping)
+            print("train:", ds_train)
+            ds_test = KLEX(
+                preprocesser, datafolder=datafolder,
+                test=True)
+            print(" test:", ds_test)
+
         else:
             raise Exception(
                 f"Downstream task '{downstream_task}' not available.")
