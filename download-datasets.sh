@@ -55,3 +55,13 @@ mv datasets/archimob/gdi-vardial-2019/train.txt datasets/archimob/train.tsv
 mv datasets/archimob/gdi-vardial-2019/gold.txt datasets/archimob/gold.tsv
 rm -r datasets/archimob/gdi-vardial-2019
 rm datasets/archimob/gdi-vardial-2019.zip
+
+mkdir -p datasets/klexikon
+wget -q "https://zenodo.org/record/6319803/files/fhewett/lexica-corpus-v2.0.zip?download=1" -O datasets/klexikon/lexica-corpus.zip
+cd datasets/klexikon && unzip lexica-corpus.zip
+cd "$FOLDER"
+rm datasets/klexikon/lexica-corpus.zip
+mv datasets/klexikon/fhewett-lexica-corpus-ff6de22/miniklexi_corpus.txt datasets/klexikon/beginner.json 
+mv datasets/klexikon/fhewett-lexica-corpus-ff6de22/klexi_corpus.txt datasets/klexikon/children.json 
+mv datasets/klexikon/fhewett-lexica-corpus-ff6de22/wiki_corpus.txt datasets/klexikon/adult.json 
+rm -rf datasets/klexikon/fhewett-lexica-corpus-ff6de22
