@@ -3,6 +3,8 @@ import numpy as np
 import torch
 import sqlite3
 import sklearn.model_selection
+import json
+import itertools
 
 
 def get_data_split(n: int,
@@ -706,3 +708,69 @@ class ArchiMob(BaseDataset):
         else:
             self.indices = torch.tensor(range(self.X.shape[0]))
             self.idx_valid = None
+
+
+class KLEX(BaseDataset):
+    """ Text level dataset
+    Examples:
+    ---------
+    import sentence_embedding_evaluation_german as seeg
+    dset = seeg.data.KLEX(
+        preprocesser, test=False,
+        early_stopping=True, split_ratio=0.1)
+    X_valid, y_valid = dset.get_validation_set()
+    n_classes = dset.num_classes()
+    dgen = torch.utils.data.DataLoader(
+        dset, **{'batch_size': 64, 'shuffle': True, 'num_workers': 6})
+    for X, y in dgen: break
+    """
+    def __init__(self,
+                 preprocesser,
+                 datafolder: str = "datasets",
+                 test: bool = False,
+                 early_stopping: bool = False,
+                 split_ratio: float = 0.2,
+                 random_seed: int = 42):
+        # read data
+        dat0 = json.load(open(f"{datafolder}/klexikon/beginner.json", "r"))
+        dat1 = json.load(open(f"{datafolder}/klexikon/children.json", "r"))
+        dat2 = json.load(open(f"{datafolder}/klexikon/adult.json", "r"))
+
+        # data split
+        if random_seed:
+            np.random.seed(random_seed)
+
+        num = 1090
+        idx = np.random.permutation(num)
+        if test:
+            idx = idx[:num // 2]
+        else:
+            idx = idx[num // 2:]
+
+        # get paragraphs that are at least 100 chars long
+        x0 = [dat0['miniklexikon'][i].get("text").split("<eop>") for i in idx]
+        x1 = [dat1['klexikon'][i].get("text").split("<eop>") for i in idx]
+        x2 = [dat2['wiki'][i].get("text").split(" * ") for i in idx]
+        x0 = [s.strip() for s in itertools.chain(*x0) if len(s.strip()) > 100]
+        x1 = [s.strip() for s in itertools.chain(*x1) if len(s.strip()) > 100]
+        x2 = [s.strip() for s in itertools.chain(*x2) if len(s.strip()) > 100]
+        # combine
+        X = x0 + x1 + x2
+        y = [0] * len(x0) + [1] * len(x1) + [2] * len(x2)
+
+        # preprocess
+        self.X = preprocesser(X)
+        if not isinstance(self.X, torch.Tensor):
+            self.X = torch.tensor(self.X)
+        self.y = torch.tensor(y)
+
+        # prepare data split
+        if early_stopping and (not test):
+            self.indices, self.idx_valid = get_data_split(
+                self.X.shape[0], random_seed=random_seed)
+        else:
+            self.indices = torch.tensor(range(self.X.shape[0]))
+            self.idx_valid = None
+
+    def num_classes(self):
+        return 3
