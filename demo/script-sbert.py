@@ -37,7 +37,7 @@ params = {
     'bias': True,
     'balanced': True,
     'batch_size': 128,
-    'num_epochs': 500,
+    'num_epochs': 250,
     # 'early_stopping': True,
     # 'split_ratio': 0.1,  # if early_stopping=True
     # 'patience': 10,  # if early_stopping=True
