@@ -309,7 +309,7 @@ def evaluate(downstream_tasks: List[str],
         # optimization settings
         optimizer = torch.optim.AdamW(
             model.parameters(), lr=1e-3, betas=(.9, .999),
-            weight_decay=1e-2, eps=1e-7, amsgrad=False)
+            weight_decay=1e-2, eps=1e-8, amsgrad=True)
 
         for epoch in range(num_epochs):
             # train
