@@ -1,7 +1,5 @@
 [![PyPI version](https://badge.fury.io/py/sentence-embedding-evaluation-german.svg)](https://badge.fury.io/py/sentence-embedding-evaluation-german)
 [![PyPi downloads](https://img.shields.io/pypi/dm/sentence-embedding-evaluation-german)](https://img.shields.io/pypi/dm/sentence-embedding-evaluation-german)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/ulf1/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/sentence-embedding-evaluation-german/alerts/)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/ulf1/sentence-embedding-evaluation-german.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/ulf1/sentence-embedding-evaluation-german/context:python)
 
 # sentence-embedding-evaluation-german
 Sentence embedding evaluation for German.
