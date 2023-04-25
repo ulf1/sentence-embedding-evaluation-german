@@ -9,6 +9,7 @@
   "upload_type": "software",
   "keywords": [
     "sentence embedding",
-    "evaluation"
+    "evaluation", "benchmarking",
+    "German language"
   ]
 }
