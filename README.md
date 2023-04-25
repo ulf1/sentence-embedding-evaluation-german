@@ -245,7 +245,25 @@ If you have troubles to get this package running, please [open an issue](https:/
 Please contribute using [Github Flow](https://guides.github.com/introduction/flow/). Create a branch, add commits, and [open a pull request](https://github.com/ulf1/sentence-embedding-evaluation-german/compare/).
 
 
-### Citation
-If you want to use this package in a research paper, please [open an issue](https://github.com/ulf1/sentence-embedding-evaluation-german/issues/new) because we have not yet decided how to make this package citable. You should at least mention the PyPi version in your paper to ensure reproducibility.
+### Acknowledgements
+The "Evidence" project was funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) - [433249742](https://gepris.dfg.de/gepris/projekt/433249742) (GU 798/27-1; GE 1119/11-1).
 
-You certainly need to cite the actual evaluation datasets in your paper. Please check the hyperlinks in the info column of the [table above](#downstream-tasks).
+
+### Citation
+1. You certainly need to cite the actual evaluation datasets in your paper. Please check the hyperlinks in the info column of the [table above](#downstream-tasks).
+
+2. Please cite the arXiv preprint when using this software for any purpose.
+
+```
+@misc{hamster2023rediscovering,
+      title={Rediscovering Hashed Random Projections for Efficient Quantization of Contextualized Sentence Embeddings}, 
+      author={Ulf A. Hamster and Ji-Ung Lee and Alexander Geyken and Iryna Gurevych},
+      year={2023},
+      eprint={2304.02481},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+```
+
+
+
