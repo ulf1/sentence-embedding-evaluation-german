@@ -1,5 +1,6 @@
 [![PyPI version](https://badge.fury.io/py/sentence-embedding-evaluation-german.svg)](https://badge.fury.io/py/sentence-embedding-evaluation-german)
 [![PyPi downloads](https://img.shields.io/pypi/dm/sentence-embedding-evaluation-german)](https://img.shields.io/pypi/dm/sentence-embedding-evaluation-german)
+[![DOI](https://zenodo.org/badge/479318994.svg)](https://zenodo.org/badge/latestdoi/479318994)
 
 # sentence-embedding-evaluation-german
 Sentence embedding evaluation for German.
@@ -252,7 +253,22 @@ The "Evidence" project was funded by the Deutsche Forschungsgemeinschaft (DFG, G
 ### Citation
 1. You certainly need to cite the actual evaluation datasets in your paper. Please check the hyperlinks in the info column of the [table above](#downstream-tasks).
 
-2. Please cite the arXiv preprint when using this software for any purpose.
+2. You can cite the software package as
+
+```
+@software{ulf_hamster_2023_7863799,
+  author       = {Ulf Hamster},
+  title        = {sentence-embedding-evaluation-german},
+  month        = apr,
+  year         = 2023,
+  publisher    = {Zenodo},
+  version      = {0.1.12},
+  doi          = {10.5281/zenodo.7863799},
+  url          = {https://doi.org/10.5281/zenodo.7863799}
+}
+```
+
+or cite the following arXiv preprint in which we deployed the software to benchmark sentence embeddings
 
 ```
 @misc{hamster2023rediscovering,
