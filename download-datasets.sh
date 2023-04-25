@@ -10,12 +10,16 @@ mkdir -p datasets/germeval21vmwe
 wget -q "https://raw.githubusercontent.com/rafehr/vid-disambiguation-sharedtask/main/data/train/train.tsv" -O datasets/germeval21vmwe/train.tsv
 wget -q "https://raw.githubusercontent.com/rafehr/vid-disambiguation-sharedtask/main/data/test/test.tsv" -O datasets/germeval21vmwe/test.tsv
 
-echo "germeval19 DOWNLOAD LINK BROKEN!!!"
-#mkdir -p datasets/germeval19
+mkdir -p datasets/germeval19
+wget -q "https://fz.h-da.de/fileadmin/user_upload/Germeval-Task-2019_training.zip"
+unzip Germeval-Task-2019_training.zip
+mv Shared-Task-2019_Data_germeval2019.training_subtask1_2.txt datasets/germeval19/train12.txt
+mv Shared-Task-2019_Data_germeval2019.training_subtask3.txt datasets/germeval19/train3.txt
+rm Germeval-Task-2019_training.zip
 #wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/09/germeval2019.training_subtask1_2_korrigiert.txt" -O datasets/germeval19/train12.txt
 #wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/05/germeval2019.training_subtask3.txt" -O datasets/germeval19/train3.txt
-#wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/08/germeval2019GoldLabelsSubtask1_2.txt" -O datasets/germeval19/gold12.txt
-#wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/08/germeval2019GoldLabelsSubtask3.txt" -O datasets/germeval19/gold3.txt
+wget -q "https://fz.h-da.de/fileadmin/user_upload/germeval2019GoldLabelsSubtask1_2.txt" -O datasets/germeval19/gold12.txt
+wget -q "https://fz.h-da.de/fileadmin/user_upload/germeval2019GoldLabelsSubtask3.txt" -O datasets/germeval19/gold3.txt
 
 mkdir -p datasets/germeval18
 wget -q "https://raw.githubusercontent.com/uds-lsv/GermEval-2018-Data/master/germeval2018.training.txt" -O datasets/germeval18/train.txt
