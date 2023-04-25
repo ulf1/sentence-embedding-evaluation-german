@@ -17,10 +17,9 @@ echo "germeval19 DOWNLOAD LINK BROKEN!!!"
 #wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/08/germeval2019GoldLabelsSubtask1_2.txt" -O datasets/germeval19/gold12.txt
 #wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/08/germeval2019GoldLabelsSubtask3.txt" -O datasets/germeval19/gold3.txt
 
-echo "germeval19 DOWNLOAD LINK BROKEN!!!"
-#mkdir -p datasets/germeval18
-#wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/05/germeval2018.training.txt" -O datasets/germeval18/train.txt
-#wget -q "https://projects.fzai.h-da.de/iggsa/wp-content/uploads/2019/05/germeval2018.test_.txt" -O datasets/germeval18/test.txt
+mkdir -p datasets/germeval18
+wget -q "https://raw.githubusercontent.com/uds-lsv/GermEval-2018-Data/master/germeval2018.training.txt" -O datasets/germeval18/train.txt
+wget -q "https://raw.githubusercontent.com/uds-lsv/GermEval-2018-Data/master/germeval2018.test.txt" -O datasets/germeval18/test.txt
 
 mkdir -p datasets/germeval17
 wget -q "http://ltdata1.informatik.uni-hamburg.de/germeval2017/train-2017-09-15.tsv" -O datasets/germeval17/train.tsv
